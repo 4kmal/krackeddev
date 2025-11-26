@@ -53,9 +53,12 @@ export default function TalksPage() {
                   <Badge variant="outline" className="text-lg py-2 px-4 border-neon-accent text-neon-accent shadow-[0_0_10px_rgba(240,240,240,0.2)] hover:bg-neon-accent/10 transition-colors">Automation</Badge>
                   <Badge variant="outline" className="text-lg py-2 px-4 border-neon-secondary text-neon-secondary shadow-[0_0_10px_rgba(0,143,17,0.2)] hover:bg-neon-secondary/10 transition-colors">Business Value</Badge>
                </div>
-               <div className="mt-10">
+               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
                  <Button size="lg" variant="cyberpunk" asChild className="h-14 px-8 text-lg">
                    <Link href="https://x.com/i/communities/1983062242292822298" target="_blank" rel="noopener noreferrer">Sign Up for Community Talks</Link>
+                 </Button>
+                 <Button size="lg" variant="outline" asChild className="h-14 px-8 text-lg">
+                   <Link href="/talks/community">View Community Talks</Link>
                  </Button>
                </div>
             </CardContent>
