@@ -6,7 +6,6 @@ import PageHero from '@/components/PageHero';
 import InfoPanel from '@/components/InfoPanel';
 import StatCard from '@/components/StatCard';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Terminal, CheckCircle2, XCircle } from 'lucide-react';
 
@@ -51,11 +50,20 @@ export default function HomeClient() {
               </div>
             </div>
             <div className="mt-auto">
-              <Link href="https://x.com/i/communities/1983062242292822298" target="_blank" rel="noopener noreferrer">
-                <Badge className="text-base md:text-lg py-2 px-4 md:px-6 cursor-pointer bg-gradient-to-r from-neon-secondary to-neon-primary hover:opacity-90 transition-opacity border-0 shadow-[0_0_15px_rgba(0,255,65,0.4)] text-black font-bold w-full justify-center sm:w-auto">
-                  RM 999 / 28 days
-                </Badge>
-              </Link>
+              <Button 
+                size="lg" 
+                variant="cyberpunk" 
+                asChild 
+                className="h-12 md:h-14 text-sm md:text-base px-6 md:px-8 w-full sm:w-auto"
+              >
+                <Link 
+                  href="https://x.com/intent/tweet?text=I%20want%20to%20sign%20up%20bootcamp%20RM999%20%2F%2028%20days%20%40masterofnone%20%40solahidris_" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  I want to sign up bootcamp RM999 / 28 days
+                </Link>
+              </Button>
             </div>
           </InfoPanel>
 
