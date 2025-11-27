@@ -16,21 +16,23 @@ export default function GamesPage() {
   const solahGames = [
     {
       id: "game1",
-      title: "Game 1",
-      description: "Solah's first game - Active and ready!",
-      status: "Active",
+      title: "💰 Money Runner",
+      description:
+        "Collect Malaysian Ringgit bills in a 3D open world! Move your stickman and grab RM1-RM100 bills.",
+      status: "Play Now",
       color: "neon-primary",
       icon: Gamepad2,
       enabled: true,
     },
     {
       id: "game2",
-      title: "Game 2",
-      description: "Coming soon - Locked",
-      status: "Locked",
-      color: "gray-500",
-      icon: Lock,
-      enabled: false,
+      title: "⚡ Super Saiyan Quest",
+      description:
+        "Play as Super Saiyan Goku! Place bombs to destroy walls, avoid enemies, and collect Ringgit bills. Go beyond your limits!",
+      status: "Play Now",
+      color: "neon-primary",
+      icon: Gamepad2,
+      enabled: true,
     },
     {
       id: "game3",
