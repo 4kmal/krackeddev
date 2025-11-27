@@ -668,7 +668,7 @@ function DPad({
   );
 
   const buttonClass = (dir: string) =>
-    `w-14 h-14 rounded-xl flex items-center justify-center text-2xl select-none transition-all touch-none ${
+    `w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl select-none transition-all touch-none ${
       activeDir === dir
         ? "bg-pink-500/80 scale-95"
         : "bg-white/20 active:bg-pink-500/60"
@@ -710,7 +710,7 @@ function DPad({
       >
         ◀
       </button>
-      <div className="w-14 h-14 rounded-full bg-white/5 border border-white/20" />
+      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/5 border border-white/20" />
       <button
         className={buttonClass("right")}
         onTouchStart={(e) => {
@@ -769,6 +769,8 @@ export default function Game2Page() {
   const [gameWon, setGameWon] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [canvasScale, setCanvasScale] = useState(1);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
 
   const totalBills = bills.length;
   const bombIdRef = useRef(0);
@@ -937,18 +939,29 @@ export default function Game2Page() {
     bombRequestRef.current = true;
   }, []);
 
-  // Detect mobile
+  // Detect mobile and calculate canvas scale
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(
-        "ontouchstart" in window ||
-          navigator.maxTouchPoints > 0 ||
-          window.innerWidth < 768
-      );
+    const checkMobileAndScale = () => {
+      // Only use width for mobile control display
+      const isMobileDevice = window.innerWidth < 768;
+      setIsMobile(isMobileDevice);
+
+      // Calculate scale to fit screen
+      const canvasWidth = MAP_WIDTH * TILE_SIZE;
+      const canvasHeight = MAP_HEIGHT * TILE_SIZE;
+      const availableWidth = window.innerWidth - 16;
+      const availableHeight = window.innerHeight - (isMobileDevice ? 240 : 140);
+
+      const scaleX = availableWidth / canvasWidth;
+      const scaleY = availableHeight / canvasHeight;
+      const scale = Math.min(scaleX, scaleY, 1); // Don't scale up beyond 1
+
+      setCanvasScale(Math.max(scale, 0.4)); // Minimum scale of 0.4
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+
+    checkMobileAndScale();
+    window.addEventListener("resize", checkMobileAndScale);
+    return () => window.removeEventListener("resize", checkMobileAndScale);
   }, []);
 
   // Keyboard input
@@ -1339,48 +1352,52 @@ export default function Game2Page() {
   return (
     <div className="fixed inset-0 z-50 bg-linear-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between px-3 py-2 bg-black/40 backdrop-blur-sm border-b border-white/10">
+      <header className="flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 bg-black/40 backdrop-blur-sm border-b border-white/10">
         <Link
           href="/game"
-          className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+          className="flex items-center gap-1 sm:gap-2 text-white/70 hover:text-white transition-colors"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="text-sm font-medium hidden sm:inline">Back</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-xs sm:text-sm font-medium">Back</span>
         </Link>
 
-        <h1 className="text-lg sm:text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-orange-400">
-          ⚡ Super Saiyan Quest
+        <h1 className="text-sm sm:text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-orange-400">
+          ⚡ SSJ Quest
         </h1>
 
         <button
           onClick={() => setSoundEnabled(!soundEnabled)}
-          className="p-2 text-white/70 hover:text-white transition-colors"
+          className="p-1.5 sm:p-2 text-white/70 hover:text-white transition-colors"
         >
           {soundEnabled ? (
-            <Volume2 className="w-5 h-5" />
+            <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
           ) : (
-            <VolumeX className="w-5 h-5" />
+            <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />
           )}
         </button>
       </header>
 
       {/* Stats Bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-black/30">
-        <div className="flex items-center gap-3">
-          <span className="text-green-400 font-bold">RM {money}</span>
-          <span className="text-white/60 text-sm">
+      <div className="flex items-center justify-between px-2 sm:px-4 py-1.5 sm:py-2 bg-black/30">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-wrap">
+          <span className="text-green-400 font-bold text-xs sm:text-base">
+            RM {money}
+          </span>
+          <span className="text-white/60 text-[10px] sm:text-sm">
             💵 {collected}/{totalBills}
           </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             {Array.from({ length: lives }).map((_, i) => (
-              <span key={i} className="text-red-400 text-sm">
+              <span key={i} className="text-red-400 text-[10px] sm:text-sm">
                 ❤️
               </span>
             ))}
           </div>
-          <span className="text-orange-400 text-sm">💣 {bombCount}</span>
+          <span className="text-orange-400 text-[10px] sm:text-sm">
+            💣 {bombCount}
+          </span>
         </div>
-        <div className="w-20 sm:w-28 h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-12 sm:w-28 h-1.5 sm:h-2 bg-white/10 rounded-full overflow-hidden">
           <div
             className="h-full bg-linear-to-r from-green-500 to-emerald-400 transition-all"
             style={{ width: `${progress}%` }}
@@ -1389,8 +1406,17 @@ export default function Game2Page() {
       </div>
 
       {/* Game Area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-2 overflow-hidden">
-        <div className="relative rounded-xl overflow-hidden border-4 border-slate-700/50 shadow-2xl">
+      <div
+        ref={gameContainerRef}
+        className="flex-1 flex flex-col items-center justify-center p-2 overflow-hidden"
+      >
+        <div
+          className="relative rounded-xl overflow-hidden border-2 sm:border-4 border-slate-700/50 shadow-2xl"
+          style={{
+            transform: `scale(${canvasScale})`,
+            transformOrigin: "center center",
+          }}
+        >
           <canvas
             ref={canvasRef}
             width={MAP_WIDTH * TILE_SIZE}
@@ -1436,25 +1462,25 @@ export default function Game2Page() {
           )}
         </div>
 
-        {/* Mobile Controls */}
-        {isMobile && !gameOver && !gameWon && (
-          <div className="mt-4 flex items-center justify-between w-full max-w-md px-4">
+        {/* Mobile Controls - CSS hidden on md+ screens */}
+        {!gameOver && !gameWon && (
+          <div className="mt-2 flex items-center justify-between w-full max-w-sm px-2 md:hidden">
             <DPad onDirectionChange={handleDirectionInput} />
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <button
                 onTouchStart={(e) => {
                   e.preventDefault();
                   handleBombPress();
                 }}
                 onClick={handleBombPress}
-                className="w-16 h-16 rounded-full bg-orange-500/80 active:bg-orange-600 flex items-center justify-center text-3xl touch-none select-none border-2 border-orange-300"
+                className="w-14 h-14 rounded-full bg-orange-500/80 active:bg-orange-600 flex items-center justify-center text-2xl touch-none select-none border-2 border-orange-300"
               >
                 💣
               </button>
               <button
                 onClick={restartGame}
-                className="px-3 py-1 bg-white/10 text-white/80 text-xs rounded-lg border border-white/10"
+                className="px-2 py-1 bg-white/10 text-white/80 text-[10px] rounded-lg border border-white/10"
               >
                 Restart
               </button>
@@ -1462,9 +1488,9 @@ export default function Game2Page() {
           </div>
         )}
 
-        {/* Desktop Hint */}
-        {!isMobile && !gameOver && !gameWon && (
-          <div className="mt-4 flex items-center gap-4">
+        {/* Desktop Hint - CSS hidden on small screens */}
+        {!gameOver && !gameWon && (
+          <div className="mt-4 hidden md:flex items-center gap-4">
             <span className="text-white/40 text-sm">
               <span className="text-cyan-400 font-mono">WASD</span> move ·{" "}
               <span className="text-orange-400 font-mono">SPACE</span> bomb
