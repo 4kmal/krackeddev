@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Join Our Team",
-  description: "We're building something special. Check back soon for exciting opportunities for talented developers. Join our community to stay updated on job openings.",
+  title: "Gamified Tech Job Board",
+  description: "Level up your career with our gamified tech job board. Earn XP, unlock badges, climb the leaderboard, and find your dream tech job. Search and filter jobs by tech stack, location, and type.",
   openGraph: {
-    title: "Join Our Team | Kracked Devs Careers",
-    description: "We're building something special. Check back soon for exciting opportunities for talented developers.",
+    title: "Gamified Tech Job Board | Kracked Devs",
+    description: "Level up your career with our gamified tech job board. Earn XP, unlock badges, and find your dream tech job.",
     url: "/jobs",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "Join Our Team",
-    description: "We're building something special. Check back soon for opportunities.",
+    card: "summary_large_image",
+    title: "Gamified Tech Job Board",
+    description: "Level up your career. Earn XP, unlock badges, and climb the leaderboard!",
   },
   robots: {
-    index: false,
+    index: true,
     follow: true,
   },
 };
