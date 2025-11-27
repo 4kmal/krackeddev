@@ -35,7 +35,7 @@ export default function HomeClient() {
           {/* Program Info */}
           <InfoPanel title="Vibe Code Bootcamp">
             <p className="text-base md:text-lg mb-6 text-muted-foreground leading-relaxed">Turn random vibes into real output in 28 days. No CS degree, just cracked execution.</p>
-            <div className="flex flex-col gap-4 mb-8">
+            <div className="flex flex-col gap-4 mb-6">
               <div className="flex items-center gap-3 group">
                  <div className="h-2 w-2 rounded-full bg-neon-primary shadow-[0_0_10px_var(--neon-primary)] group-hover:scale-150 transition-transform" />
                  <span className="text-sm md:text-base text-foreground group-hover:text-neon-primary transition-colors">Real-world projects</span>
@@ -49,19 +49,15 @@ export default function HomeClient() {
                  <span className="text-sm md:text-base text-foreground group-hover:text-neon-accent transition-colors">Earn "Cracked Dev" status</span>
               </div>
             </div>
-            <div className="mt-auto">
+            <div className="flex justify-center">
               <Button 
                 size="lg" 
                 variant="cyberpunk" 
                 asChild 
-                className="h-12 md:h-14 text-sm md:text-base px-6 md:px-8 w-full sm:w-auto"
+                className="h-12 md:h-14 text-sm md:text-base px-6 md:px-8"
               >
-                <Link 
-                  href="https://x.com/intent/tweet?text=I%20want%20to%20sign%20up%20bootcamp%20RM999%20%2F%2028%20days%20%40masterofnone%20%40solahidris_" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  I want to sign up bootcamp RM999 / 28 days
+                <Link href="/signup/bootcamp">
+                  More Info
                 </Link>
               </Button>
             </div>

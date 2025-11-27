@@ -28,7 +28,7 @@ const InfoPanel = ({ title, children, actions, delay = 0 }: InfoPanelProps) => {
           {children}
         </CardContent>
         {actions && (
-          <CardFooter className="pt-0 flex justify-end">
+          <CardFooter className="pt-0 flex justify-center">
             {actions}
           </CardFooter>
         )}
