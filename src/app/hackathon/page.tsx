@@ -165,26 +165,26 @@ export default function HackathonPage() {
 
         {/* Bug Bounty Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="border-2 border-neon-primary/60 bg-black/80 hover:border-neon-primary shadow-[0_0_30px_rgba(0,255,65,0.3)] group relative">
+          <Card className="border border-neon-primary/20 bg-black/60 hover:border-neon-primary/30 shadow-[0_0_10px_rgba(0,255,65,0.1)] group relative opacity-75">
             <div className="absolute top-2 right-2">
               <Badge className="bg-green-600 text-white font-mono text-xs">FINISHED</Badge>
             </div>
             <CardHeader>
-              <CardTitle className="text-neon-primary flex items-center gap-2 text-xl">
+              <CardTitle className="text-neon-primary/70 flex items-center gap-2 text-xl">
                 <Code2 className="w-6 h-6" />
                 Bug Bounty #001
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-white font-semibold mb-2 group-hover:text-neon-primary transition-colors">Creative Web Design & Frontend</p>
+              <p className="text-white/80 font-semibold mb-2 transition-colors">Creative Web Design & Frontend</p>
               <p className="text-sm text-muted-foreground mb-4">Showcase your creativity! Build innovative web designs and frontend implementations. Be bold and creative to win RM 100.</p>
               <div className="flex gap-2 mb-4">
-                <Badge variant="outline" className="border-neon-primary text-neon-primary text-xs">RM 100</Badge>
-                <Badge variant="outline" className="border-neon-primary text-neon-primary text-xs">Top 10 Bonus</Badge>
+                <Badge variant="outline" className="border-neon-primary/50 text-neon-primary/70 text-xs">RM 100</Badge>
+                <Badge variant="outline" className="border-neon-primary/50 text-neon-primary/70 text-xs">Top 10 Bonus</Badge>
               </div>
             </CardContent>
             <CardFooter className="flex gap-2">
-              <Button variant="cyberpunk" size="lg" asChild className="flex-1 border-neon-primary text-neon-primary hover:bg-neon-primary hover:text-black hover:shadow-[0_0_20px_var(--neon-primary)] font-mono uppercase">
+              <Button variant="cyberpunk" size="lg" asChild className="flex-1 border-neon-primary/50 text-neon-primary/70 hover:bg-neon-primary/20 hover:text-neon-primary/80 hover:shadow-[0_0_10px_var(--neon-primary)] font-mono uppercase">
                 <a href="https://x.com/masterofnone/status/1992914421883248878?s=20" target="_blank" rel="noopener noreferrer">
                   FINISHED
                 </a>
@@ -192,18 +192,18 @@ export default function HackathonPage() {
             </CardFooter>
           </Card>
 
-          <Card className="border-2 border-neon-secondary/60 bg-black/80 hover:border-neon-secondary shadow-[0_0_30px_rgba(43,138,26,0.3)] group relative flex flex-col h-full">
+          <Card className="border-2 border-neon-secondary bg-black/90 hover:border-neon-secondary shadow-[0_0_50px_rgba(43,138,26,0.6)] hover:shadow-[0_0_70px_rgba(43,138,26,0.8)] group relative flex flex-col h-full">
             <div className="absolute top-2 right-2">
-              <Badge className="bg-neon-secondary text-white font-mono text-xs">ACTIVE</Badge>
+              <Badge className="bg-neon-secondary text-white font-mono text-xs shadow-[0_0_10px_rgba(43,138,26,0.8)]">ACTIVE</Badge>
             </div>
             <CardHeader>
-              <CardTitle className="text-neon-secondary flex items-center gap-2 text-xl">
+              <CardTitle className="text-neon-secondary flex items-center gap-2 text-xl drop-shadow-[0_0_8px_rgba(43,138,26,0.8)]">
                 <Briefcase className="w-6 h-6" />
                 Bug Bounty #002
                </CardTitle>
             </CardHeader>
             <CardContent className="flex-1">
-              <p className="text-white font-semibold mb-2 group-hover:text-neon-secondary transition-colors">Gamified Tech Job Board</p>
+              <p className="text-white font-semibold mb-2 group-hover:text-neon-secondary transition-colors drop-shadow-[0_0_4px_rgba(43,138,26,0.5)]">Gamified Tech Job Board</p>
               <p className="text-sm text-muted-foreground mb-4">Community voted for a "Gamified Tech Job Board" theme. Winner gets RM150! Build something epic & submit your PR 🌟</p>
             </CardContent>
             <CardFooter className="flex gap-2 mt-auto">
@@ -212,7 +212,7 @@ export default function HackathonPage() {
                 size="lg" 
                 asChild
                 onClick={() => window.open('https://x.com/solahidris_/status/1993586176419414145?s=20', '_blank')}
-                className="flex-1 border-neon-secondary text-neon-secondary hover:bg-neon-secondary hover:text-black hover:shadow-[0_0_20px_var(--neon-secondary)] font-mono uppercase"
+                className="flex-1 border-2 border-neon-secondary text-neon-secondary bg-neon-secondary/10 hover:bg-neon-secondary hover:text-black hover:shadow-[0_0_30px_var(--neon-secondary)] font-mono uppercase font-bold shadow-[0_0_20px_rgba(43,138,26,0.6)]"
               >
                 <a href="https://x.com/solahidris_/status/1993586176419414145?s=20" target="_blank" rel="noopener noreferrer">
                   Start Bug Bounty #002
