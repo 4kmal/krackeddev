@@ -13,11 +13,11 @@ export default function AboutPage() {
         subtitle="Building the future of tech, one line of code at a time."
       />
 
-      <div className="container mx-auto px-4 py-10 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-20 relative z-10">
         {/* Mission Section */}
-        <Card className="mb-12 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md overflow-hidden">
+        <Card className="mb-16 md:mb-20 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,143,17,0.15)_0%,transparent_70%)] pointer-events-none" />
-          <CardContent className="pt-12 pb-12 relative z-10">
+          <CardContent className="pt-16 pb-16 md:pt-20 md:pb-20 relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 text-center">
               Our Mission
             </h2>
@@ -30,7 +30,7 @@ export default function AboutPage() {
         </Card>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 md:mb-20">
           <Card className="border-white/10 bg-black/60 backdrop-blur-sm hover:border-neon-primary/50 transition-colors group">
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">

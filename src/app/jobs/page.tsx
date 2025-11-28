@@ -149,12 +149,12 @@ function JobsPageContent() {
         subtitle="Level up your career. Earn XP, unlock badges, and climb the leaderboard!"
       />
 
-      <div className="container mx-auto px-4 py-10 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-20 relative z-10">
         {/* Stats Banner */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-10 md:mb-12"
         >
           <Card className="border-neon-primary/30 bg-gradient-to-r from-black/80 to-black/40 backdrop-blur-md">
             <CardContent className="p-6">
@@ -195,15 +195,15 @@ function JobsPageContent() {
           </Card>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
           {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-6 md:space-y-8">
             <UserStats />
             <Leaderboard />
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
+          <div className="lg:col-span-3 space-y-6 md:space-y-8">
             {/* Search and Filters */}
             <Card className="border-neon-primary/30 bg-black/60 backdrop-blur-md">
               <CardContent className="p-6">

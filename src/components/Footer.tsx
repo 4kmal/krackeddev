@@ -6,12 +6,12 @@ import Link from 'next/link';
 const Footer = () => {
 
   return (
-    <footer className="relative border-t border-white/5 bg-background/50 backdrop-blur-sm pt-16 pb-8 overflow-hidden">
+    <footer className="relative border-t border-white/5 bg-background/50 backdrop-blur-sm pt-20 md:pt-24 pb-12 md:pb-16 overflow-hidden">
       {/* Background Grid Effect */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
-      <div className="container relative mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <div className="container relative mx-auto px-4 md:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16 mb-16 md:mb-20">
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="inline-block font-mono text-xl font-bold tracking-tighter text-foreground hover:text-neon-cyan transition-colors duration-300 mb-4">
               &lt;Kracked Devs /&gt;
@@ -45,7 +45,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-white/5 pt-10 md:pt-12 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             © 2025 Kracked Devs. All rights reserved.
           </p>

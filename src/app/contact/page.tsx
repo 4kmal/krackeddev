@@ -39,9 +39,9 @@ export default function ContactPage() {
           title="Message Sent" 
           subtitle="We'll get back to you soon."
         />
-        <div className="container mx-auto px-4 mt-10">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20">
           <Card className="max-w-md mx-auto border-neon-primary/50 bg-black/80 shadow-[0_0_30px_rgba(0,255,65,0.1)]">
-            <CardContent className="pt-8 text-center flex flex-col items-center">
+            <CardContent className="pt-12 pb-12 md:pt-16 md:pb-16 text-center flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-neon-primary/10 flex items-center justify-center mb-6">
                 <CheckCircle className="w-8 h-8 text-neon-primary" />
               </div>
@@ -61,8 +61,8 @@ export default function ContactPage() {
         subtitle="Have a question? We'd love to hear from you."
       />
 
-      <div className="container mx-auto px-4 mt-10 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto">
           {/* Contact Form */}
           <div className="md:col-span-2">
             <Card className="border-white/10 bg-black/60 backdrop-blur-md">

@@ -87,8 +87,8 @@ const PageHero = ({ title, subtitle, children, backgroundImage }: PageHeroProps)
         />
       )}
       
-      <div className="relative z-10 container px-4 md:px-6 flex flex-col items-center text-center pt-24 md:pt-32">
-        <div className="max-w-4xl space-y-6 md:space-y-8">
+      <div className="relative z-10 container px-4 md:px-6 lg:px-8 flex flex-col items-center text-center pt-24 md:pt-32 lg:pt-40">
+        <div className="max-w-4xl space-y-8 md:space-y-10 lg:space-y-12">
           <motion.div 
             className="relative"
             variants={container}

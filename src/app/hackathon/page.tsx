@@ -122,9 +122,9 @@ export default function HackathonPage() {
         </div>
       </PageHero>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         {/* How It Works Section */}
-        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-12 mt-16 md:mt-20">
+        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-16 md:mb-20 mt-16 md:mt-20 lg:mt-24">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-accent" />
           <CardHeader>
             <CardTitle className="text-center text-2xl font-mono uppercase tracking-widest">How It Works</CardTitle>
@@ -164,7 +164,7 @@ export default function HackathonPage() {
         </Card>
 
         {/* Bug Bounty Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20">
           <Card className="border border-neon-primary/20 bg-black/60 hover:border-neon-primary/30 shadow-[0_0_10px_rgba(0,255,65,0.1)] group relative opacity-75">
             <div className="absolute top-2 right-2">
               <Badge className="bg-green-600 text-white font-mono text-xs">FINISHED</Badge>
@@ -246,7 +246,7 @@ export default function HackathonPage() {
         </div>
 
         {/* Scoring Method */}
-        <Card className="border-neon-primary/30 bg-black/60 mb-12">
+        <Card className="border-neon-primary/30 bg-black/60 mb-16 md:mb-20">
           <CardHeader>
             <CardTitle className="text-neon-primary flex items-center gap-2">
               <Award className="w-5 h-5" />
@@ -312,7 +312,7 @@ export default function HackathonPage() {
         </Card>
 
         {/* Social Proof Section */}
-        <Card className="border-neon-secondary/30 bg-black/60 mb-12">
+        <Card className="border-neon-secondary/30 bg-black/60 mb-16 md:mb-20">
           <CardHeader>
             <CardTitle className="text-neon-secondary flex items-center gap-2">
               <Users className="w-5 h-5" />
@@ -343,7 +343,7 @@ export default function HackathonPage() {
         </Card>
 
         {/* Leaderboard */}
-        <Card className="border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden mb-12">
+        <Card className="border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden mb-16 md:mb-20">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-accent" />
           <CardHeader>
             <div className="text-center text-2xl font-mono uppercase tracking-widest flex items-center justify-center gap-3">
@@ -376,7 +376,7 @@ export default function HackathonPage() {
                       <TableCell className="font-bold text-neon-secondary">#{row.rank}</TableCell>
                       <TableCell className="font-bold text-foreground">{row.name}</TableCell>
                       <TableCell className="text-muted-foreground">{row.project}</TableCell>
-                      <TableCell className="text-muted-foreground"><Badge variant="secondary" className="bg-white/5 text-xs hover:bg-white/10">{row.focus}</Badge></TableCell>
+                      <TableCell><Badge variant="secondary" className="bg-white/10 text-white border border-white/20 text-sm font-medium px-3 py-1 rounded-none">{row.focus}</Badge></TableCell>
                       <TableCell className="text-right font-bold text-neon-accent">{row.points}</TableCell>
                     </TableRow>
                   ))}
@@ -395,7 +395,7 @@ export default function HackathonPage() {
         </Card>
 
         {/* FAQ Section */}
-        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-12">
+        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-16 md:mb-20">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-mono uppercase tracking-widest flex items-center justify-center gap-2">
               <HelpCircle className="w-6 h-6 text-neon-primary" />
@@ -430,7 +430,7 @@ export default function HackathonPage() {
         </Card>
 
         {/* Final CTA Section */}
-        <div className="relative overflow-hidden mb-12">
+        <div className="relative overflow-hidden mb-16 md:mb-20">
           <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/20 via-neon-secondary/20 to-neon-accent/20 blur-3xl" />
           <Card className="relative border-2 border-neon-primary/50 bg-black/90 backdrop-blur-xl">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-accent" />

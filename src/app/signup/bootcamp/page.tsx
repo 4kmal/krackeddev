@@ -108,10 +108,10 @@ export default function BootcampSignupPage() {
         subtitle="Coming Soon"
       />
 
-      <div className="container mx-auto px-4 mt-10 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20 relative z-10">
         <div className="max-w-2xl mx-auto">
           <Card className="border-neon-primary/30 bg-black/80 backdrop-blur-xl shadow-[0_0_50px_rgba(0,255,65,0.05)]">
-            <CardContent className="pt-12 pb-12 text-center">
+            <CardContent className="pt-16 pb-16 md:pt-20 md:pb-20 text-center">
               <h2 className="text-3xl font-mono uppercase tracking-widest text-neon-primary mb-4">
                 Coming Soon
               </h2>
