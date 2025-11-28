@@ -362,8 +362,8 @@ export class RunnerScene extends Phaser.Scene {
   }
 
   private hitObstacle(
-    player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    obstacle: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
+    player: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    obstacle: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
   ): void {
     if (this.isGameOver) return;
 
@@ -372,8 +372,8 @@ export class RunnerScene extends Phaser.Scene {
   }
 
   private collectPickup(
-    player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    pickup: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
+    player: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    pickup: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
   ): void {
     const p = pickup as unknown as Pickup;
 
