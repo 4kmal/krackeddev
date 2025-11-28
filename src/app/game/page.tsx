@@ -114,7 +114,7 @@ export default function GamesPage() {
   return (
     <main className="min-h-screen pb-20 overflow-hidden">
       <PageHero
-        title="Game Zone"
+        title="Kracked Games"
         subtitle="Experimental games built by Kracked Devs. Test, play, and break things."
       />
 

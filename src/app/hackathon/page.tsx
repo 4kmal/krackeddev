@@ -99,7 +99,7 @@ export default function HackathonPage() {
   return (
     <main className="min-h-screen pb-20 overflow-hidden">
       <PageHero 
-        title="Want to be a Kracked Dev?" 
+        title="Kracked Hackathon" 
         subtitle="A community of cracked developers who want to level up together."
       >
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">

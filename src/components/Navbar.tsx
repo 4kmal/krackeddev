@@ -45,7 +45,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/game">Games</NavLink>
-          <NavLink href="/talks">Community Talks</NavLink>
+          <NavLink href="/talks">Talks</NavLink>
           <NavLink href="/hackathon">Hackathon</NavLink>
         </div>
 
@@ -79,7 +79,7 @@ const Navbar = () => {
             <div className="container mx-auto px-4 py-6 space-y-4 flex flex-col">
               <MobileNavLink href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</MobileNavLink>
               <MobileNavLink href="/game" onClick={() => setIsMobileMenuOpen(false)}>Games</MobileNavLink>
-              <MobileNavLink href="/talks" onClick={() => setIsMobileMenuOpen(false)}>Community Talks</MobileNavLink>
+              <MobileNavLink href="/talks" onClick={() => setIsMobileMenuOpen(false)}>Talks</MobileNavLink>
               <MobileNavLink href="/hackathon" onClick={() => setIsMobileMenuOpen(false)}>Hackathon</MobileNavLink>
               
               <div className="pt-4 border-t border-white/10 flex items-center justify-between">
