@@ -20,7 +20,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Trophy, Bug, Star, Code2, Globe, Gamepad2, Award, ArrowRight, Users, Briefcase, FileCode, CheckCircle2, Clock, Zap, HelpCircle, Sparkles, Code, Heart, Rocket } from 'lucide-react';
+import { Trophy, Bug, Star, Code2, Globe, Gamepad2, Award, ArrowRight, Users, Briefcase, FileCode, CheckCircle2, Clock, Zap, Sparkles, Code, Heart, Rocket } from 'lucide-react';
 
 export default function HackathonPage() {
   const [isScopeOpen, setIsScopeOpen] = useState(false);
@@ -109,60 +109,10 @@ export default function HackathonPage() {
           <div className="absolute top-0 right-0 w-2 h-2 bg-neon-primary shadow-[0_0_5px_var(--neon-primary)]" />
           <div className="absolute bottom-0 left-0 w-2 h-2 bg-neon-primary shadow-[0_0_5px_var(--neon-primary)]" />
           </div>
-          <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <Button size="lg" variant="cyberpunk" asChild className="h-12 px-8 text-base font-mono uppercase tracking-widest">
-              <a href={twitterUrls.joinHackathon} target="_blank" rel="noopener noreferrer">
-                Join Hackathon Now <ArrowRight className="ml-2 w-5 h-5" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="lg" onClick={() => setIsRulesOpen(true)} className="h-12 px-8 text-base border border-white/10 hover:bg-white/5">
-              View Rules
-            </Button>
-          </div>
         </div>
       </PageHero>
 
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-        {/* How It Works Section */}
-        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-16 md:mb-20 mt-16 md:mt-20 lg:mt-24">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-accent" />
-          <CardHeader>
-            <CardTitle className="text-center text-2xl font-mono uppercase tracking-widest">How It Works</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-none border-2 border-neon-primary flex items-center justify-center mx-auto mb-4 bg-neon-primary/10 text-neon-primary font-mono text-2xl font-bold">
-                  1
-                </div>
-                <h3 className="font-bold text-white mb-2 font-mono">Register & Join</h3>
-                <p className="text-sm text-muted-foreground">Sign up for free and join the hackathon community</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-none border-2 border-neon-secondary flex items-center justify-center mx-auto mb-4 bg-neon-secondary/10 text-neon-secondary font-mono text-2xl font-bold">
-                  2
-                </div>
-                <h3 className="font-bold text-white mb-2 font-mono">Choose Bug Bounty</h3>
-                <p className="text-sm text-muted-foreground">Pick a challenge that matches your skills</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-none border-2 border-neon-accent flex items-center justify-center mx-auto mb-4 bg-neon-accent/10 text-neon-accent font-mono text-2xl font-bold">
-                  3
-                </div>
-                <h3 className="font-bold text-white mb-2 font-mono">Build & Submit</h3>
-                <p className="text-sm text-muted-foreground">Create your solution and submit for review</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-none border-2 border-neon-primary flex items-center justify-center mx-auto mb-4 bg-neon-primary/10 text-neon-primary font-mono text-2xl font-bold">
-                  4
-                </div>
-                <h3 className="font-bold text-white mb-2 font-mono">Win Prizes</h3>
-                <p className="text-sm text-muted-foreground">Earn credits, get hired, and level up</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10 mt-20">
         {/* Bug Bounty Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20">
           <Card className="border border-neon-primary/20 bg-black/60 hover:border-neon-primary/30 shadow-[0_0_10px_rgba(0,255,65,0.1)] group relative opacity-75">
@@ -245,8 +195,48 @@ export default function HackathonPage() {
           </Card>
         </div>
 
+        {/* How It Works Section */}
+        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-16 md:mb-20 mt-16 md:mt-20 lg:mt-24">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-accent" />
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-mono uppercase tracking-widest">How It Works</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-none border-2 border-neon-primary flex items-center justify-center mx-auto mb-4 bg-neon-primary/10 text-neon-primary font-mono text-2xl font-bold">
+                  1
+                </div>
+                <h3 className="font-bold text-white mb-2 font-mono">Register & Join</h3>
+                <p className="text-sm text-muted-foreground">Sign up for free and join the hackathon community</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-none border-2 border-neon-secondary flex items-center justify-center mx-auto mb-4 bg-neon-secondary/10 text-neon-secondary font-mono text-2xl font-bold">
+                  2
+                </div>
+                <h3 className="font-bold text-white mb-2 font-mono">Choose Bug Bounty</h3>
+                <p className="text-sm text-muted-foreground">Pick a challenge that matches your skills</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-none border-2 border-neon-accent flex items-center justify-center mx-auto mb-4 bg-neon-accent/10 text-neon-accent font-mono text-2xl font-bold">
+                  3
+                </div>
+                <h3 className="font-bold text-white mb-2 font-mono">Build & Submit</h3>
+                <p className="text-sm text-muted-foreground">Create your solution and submit for review</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-none border-2 border-neon-primary flex items-center justify-center mx-auto mb-4 bg-neon-primary/10 text-neon-primary font-mono text-2xl font-bold">
+                  4
+                </div>
+                <h3 className="font-bold text-white mb-2 font-mono">Win Prizes</h3>
+                <p className="text-sm text-muted-foreground">Earn credits, get hired, and level up</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Scoring Method */}
-        <Card className="border-neon-primary/30 bg-black/60 mb-16 md:mb-20">
+        {/* <Card className="border-neon-primary/30 bg-black/60 mb-16 md:mb-20">
           <CardHeader>
             <CardTitle className="text-neon-primary flex items-center gap-2">
               <Award className="w-5 h-5" />
@@ -309,10 +299,10 @@ export default function HackathonPage() {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Social Proof Section */}
-        <Card className="border-neon-secondary/30 bg-black/60 mb-16 md:mb-20">
+        {/* <Card className="border-neon-secondary/30 bg-black/60 mb-16 md:mb-20">
           <CardHeader>
             <CardTitle className="text-neon-secondary flex items-center gap-2">
               <Users className="w-5 h-5" />
@@ -340,7 +330,7 @@ export default function HackathonPage() {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Leaderboard */}
         <Card className="border-white/10 bg-black/80 backdrop-blur-xl overflow-hidden mb-16 md:mb-20">
@@ -392,41 +382,6 @@ export default function HackathonPage() {
               </Button>
             </div>
           </CardContent>
-        </Card>
-
-        {/* FAQ Section */}
-        <Card className="border-white/10 bg-black/80 backdrop-blur-xl mb-16 md:mb-20">
-          <CardHeader>
-            <CardTitle className="text-center text-2xl font-mono uppercase tracking-widest flex items-center justify-center gap-2">
-              <HelpCircle className="w-6 h-6 text-neon-primary" />
-              Frequently Asked Questions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="p-4 bg-white/5 rounded-none border-l-2 border-neon-primary">
-              <h3 className="font-bold text-white mb-2 font-mono">Do I need experience to participate?</h3>
-              <p className="text-sm text-muted-foreground">No! The hackathon is open to developers of all skill levels. Beginners are welcome and can learn from the community.</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-none border-l-2 border-neon-secondary">
-              <h3 className="font-bold text-white mb-2 font-mono">How long does it take?</h3>
-              <p className="text-sm text-muted-foreground">Each bug bounty has its own timeline. Most challenges can be completed in 1-2 weeks, but you can work at your own pace.</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-none border-l-2 border-neon-accent">
-              <h3 className="font-bold text-white mb-2 font-mono">What if I don't win?</h3>
-              <p className="text-sm text-muted-foreground">Even if you don't win, you'll gain valuable experience, build your portfolio, and network with industry professionals. Participation points still count!</p>
-            </div>
-            <div className="p-4 bg-white/5 rounded-none border-l-2 border-neon-primary">
-              <h3 className="font-bold text-white mb-2 font-mono">How are winners selected?</h3>
-              <p className="text-sm text-muted-foreground">Winners are selected based on code quality, innovation, and impact. Points are multiplied by ranking multipliers for final scores.</p>
-            </div>
-          </CardContent>
-          <CardFooter className="justify-center">
-            <Button variant="ghost" asChild className="border border-white/10 hover:bg-white/5">
-              <a href={twitterUrls.contactUs} target="_blank" rel="noopener noreferrer">
-                Still have questions? Contact Us
-              </a>
-            </Button>
-          </CardFooter>
         </Card>
 
         {/* Final CTA Section */}
