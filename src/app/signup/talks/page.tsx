@@ -76,9 +76,9 @@ export default function TalksSignupPage() {
           title="Registration Successful!" 
           subtitle="You're signed up for Community Talks"
         />
-        <div className="container mx-auto px-4 mt-10">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20">
           <Card className="max-w-md mx-auto border-neon-accent/50 bg-black/80 shadow-[0_0_30px_rgba(240,240,240,0.1)]">
-            <CardContent className="pt-8 text-center flex flex-col items-center">
+            <CardContent className="pt-12 pb-12 md:pt-16 md:pb-16 text-center flex flex-col items-center">
                <div className="w-16 h-16 rounded-full bg-neon-accent/10 flex items-center justify-center mb-6">
                 <CheckCircle className="w-8 h-8 text-neon-accent" />
               </div>
@@ -101,8 +101,8 @@ export default function TalksSignupPage() {
         subtitle="Join our community talks and learn from industry experts"
       />
 
-      <div className="container mx-auto px-4 mt-10 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-start max-w-6xl mx-auto">
           
           {/* Form */}
           <div className="md:col-span-3">

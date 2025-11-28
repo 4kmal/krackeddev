@@ -216,8 +216,8 @@ export default function Game7Page() {
     <main className="min-h-screen pb-20 bg-black relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,143,17,0.15)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="container mx-auto px-4 py-10 relative z-10">
-        <div className="mb-8 flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-20 relative z-10">
+        <div className="mb-10 md:mb-12 flex items-center justify-between">
           <Link
             href="/game"
             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
@@ -231,7 +231,7 @@ export default function Game7Page() {
           </div>
         </div>
 
-        <Card className="mb-8 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md">
+        <Card className="mb-10 md:mb-12 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md">
           <CardHeader className="text-center">
             <CardTitle className="text-4xl md:text-5xl mb-4 flex items-center justify-center gap-3">
               <Gamepad2 className="w-12 h-12 text-neon-secondary" />
@@ -244,7 +244,7 @@ export default function Game7Page() {
         </Card>
 
         <Card className="border-white/10 bg-black/60 backdrop-blur-md overflow-hidden">
-          <CardContent className="p-4 md:p-6 flex items-center justify-center">
+          <CardContent className="p-6 md:p-8 lg:p-10 flex items-center justify-center">
             <div
               ref={gameContainerRef}
               className="flex items-center justify-center rounded-lg overflow-hidden"

@@ -76,9 +76,9 @@ export default function JoinCommunityPage() {
           title="Welcome to the Community!" 
           subtitle="You're now part of the Kracked Dev community."
         />
-        <div className="container mx-auto px-4 mt-10">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20">
           <Card className="max-w-md mx-auto border-neon-cyan/50 bg-black/80 shadow-[0_0_30px_rgba(0,243,255,0.1)]">
-            <CardContent className="pt-8 text-center flex flex-col items-center">
+            <CardContent className="pt-12 pb-12 md:pt-16 md:pb-16 text-center flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-neon-cyan/10 flex items-center justify-center mb-6">
                 <CheckCircle className="w-8 h-8 text-neon-cyan" />
               </div>
@@ -101,8 +101,8 @@ export default function JoinCommunityPage() {
         subtitle="Connect with other developers and level up together."
       />
 
-      <div className="container mx-auto px-4 mt-10 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10 items-start max-w-6xl mx-auto">
           
           {/* Form */}
           <div className="md:col-span-3">

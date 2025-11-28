@@ -30,7 +30,7 @@ export default function HomeClient() {
       </PageHero>
 
       {/* Bootcamp Section */}
-      <div className="container mx-auto px-4 mt-0 md:mt-10 relative z-20">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 mt-12 md:mt-16 lg:mt-20 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
           {/* Program Info */}
           <InfoPanel title="Vibe Code Bootcamp">
@@ -106,7 +106,7 @@ export default function HomeClient() {
         </div>
 
         {/* Stats/Proof */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 md:mt-20">
            <StatCard 
              label="Operatives" 
              value="500+" 

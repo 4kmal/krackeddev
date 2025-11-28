@@ -47,9 +47,9 @@ export default function Game6Page() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,0,0.08)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-20 relative z-10">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-10 md:mb-12 flex items-center justify-between">
           <Link
             href="/game"
             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
@@ -64,8 +64,8 @@ export default function Game6Page() {
         </div>
 
         {/* Game Title */}
-        <Card className="mb-6 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md">
-          <CardHeader className="text-center py-6">
+        <Card className="mb-10 md:mb-12 border-white/10 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md">
+          <CardHeader className="text-center py-8 md:py-10">
             <CardTitle className="text-3xl md:text-4xl mb-2 flex items-center justify-center gap-3">
               <Zap className="w-10 h-10 text-neon-secondary" />
               Kracked Dev Sprint
