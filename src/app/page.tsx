@@ -1,14 +1,20 @@
-import type { Metadata } from "next";
-import PageHero from "@/components/PageHero";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Kracked Devs",
-  description: "A community of cracked developers who want to level up together.",
-};
+import { useState } from "react";
+import PageHero from "@/components/PageHero";
+import SplitTextAnimation from "./components/SplitTextAnimation";
 
 export default function Home() {
+  const [showAnimation, setShowAnimation] = useState(true);
+
   return (
     <main className="min-h-screen">
+      {showAnimation && (
+        <SplitTextAnimation
+          text="Welcome to Kracked Devs"
+          onComplete={() => setShowAnimation(false)}
+        />
+      )}
       <PageHero
         title="[placeholder]"
         subtitle=""
