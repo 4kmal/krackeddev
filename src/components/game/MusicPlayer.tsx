@@ -20,6 +20,10 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ startPlaying = true, o
         const audio = audioRef.current;
         if (!audio) return;
 
+        // Initialize volume based on mute state
+        const currentMuted = localStorage.getItem('soundMuted') === 'true';
+        audio.volume = currentMuted ? 0 : 0.4;
+
         const controls = {
             play: () => {
                 const currentMuted = localStorage.getItem('soundMuted') === 'true';
@@ -52,12 +56,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ startPlaying = true, o
         if (onReady) {
             onReady(controls);
         }
-
-        const currentMuted = localStorage.getItem('soundMuted') === 'true';
-        if (startPlaying && !currentMuted) {
-            controls.play();
-        }
-    }, [startPlaying, onReady]);
+    }, [onReady]);
 
     // Listen for sound toggle events
     useEffect(() => {
@@ -84,11 +83,11 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ startPlaying = true, o
         return () => window.removeEventListener('soundToggle', handleSoundToggle as EventListener);
     }, [startPlaying]);
 
+    // Initialize and play audio when startPlaying changes
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
-        // Initialize volume based on mute state
         const currentMuted = localStorage.getItem('soundMuted') === 'true';
         if (currentMuted) {
             audio.volume = 0;
@@ -110,21 +109,5 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ startPlaying = true, o
             className="hidden"
         />
     );
-};
-
-// Export hook to control music from outside
-export const useMusicControls = () => {
-    const [isMuted, setIsMuted] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('soundMuted') === 'true';
-        }
-        return false;
-    });
-
-    const toggleMute = () => {
-        setIsMuted(prev => !prev);
-    };
-
-    return { isMuted, toggleMute };
 };
 

@@ -45,7 +45,6 @@ export const BaseGameWorld: React.FC<BaseGameWorldProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [nearBuilding, setNearBuilding] = useState<BuildingConfig | null>(null);
   const [showDialog, setShowDialog] = useState(false);
   const hasNavigatedRef = useRef(false);
@@ -73,18 +72,16 @@ export const BaseGameWorld: React.FC<BaseGameWorldProps> = ({
     preloadCharacterSprites().catch(console.error);
   }, []);
 
-  // Detect mobile and small screens
+  // Detect mobile
   useEffect(() => {
-    const checkScreenSize = () => {
+    const checkMobile = () => {
       const isMobileDevice = window.innerWidth < 768;
-      const isSmallScreenDevice = window.innerWidth < 1280; // Below xl (huge) breakpoint
       setIsMobile(isMobileDevice);
-      setIsSmallScreen(isSmallScreenDevice);
     };
 
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Keyboard input
