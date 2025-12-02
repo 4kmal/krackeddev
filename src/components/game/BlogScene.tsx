@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { BaseGameWorld } from './BaseGameWorld';
 import { EscapeButton } from './EscapeButton';
 import { TILE_EMPTY, TILE_WALL, TILE_BLOG, TILE_BACK_TO_TOWN, MAP_WIDTH, MAP_HEIGHT } from '@/lib/game/constants';
-import { addGroundVariety, addTrees } from '@/lib/game/mapHelpers';
+import { addGroundVariety, addTrees, connectBuildingsWithRoads } from '@/lib/game/mapHelpers';
 import { BuildingConfig } from '@/lib/game/types';
 import { posts } from '@/lib/blog';
 
@@ -52,10 +52,9 @@ export const BlogScene: React.FC<BlogSceneProps> = ({ onBack }) => {
     newMap[MAP_HEIGHT - 3][1] = TILE_BACK_TO_TOWN;
     newMap[MAP_HEIGHT - 3][2] = TILE_BACK_TO_TOWN;
 
-    // Add ground variety and trees
-    addGroundVariety(newMap);
+    // Connect buildings with roads
     const buildingPositions = [
-      ...posts.slice(0, 4).flatMap((post, idx) => {
+      ...posts.slice(0, 4).map((post, idx) => {
         const centerX = Math.floor(MAP_WIDTH / 2);
         const startY = 2;
         const x = centerX - 2 + (idx % 2) * 3;
@@ -64,10 +63,15 @@ export const BlogScene: React.FC<BlogSceneProps> = ({ onBack }) => {
           { x, y }, { x: x + 1, y }, { x, y: y + 1 }, { x: x + 1, y: y + 1 }
         ];
       }),
-      { x: 1, y: MAP_HEIGHT - 2 }, { x: 2, y: MAP_HEIGHT - 2 },
-      { x: 1, y: MAP_HEIGHT - 3 }, { x: 2, y: MAP_HEIGHT - 3 }
+      [{ x: 1, y: MAP_HEIGHT - 2 }, { x: 2, y: MAP_HEIGHT - 2 },
+       { x: 1, y: MAP_HEIGHT - 3 }, { x: 2, y: MAP_HEIGHT - 3 }]
     ];
-    addTrees(newMap, buildingPositions);
+    connectBuildingsWithRoads(newMap, buildingPositions);
+
+    // Add ground variety and trees
+    addGroundVariety(newMap);
+    const flatBuildingPositions = buildingPositions.flat();
+    addTrees(newMap, flatBuildingPositions);
 
     return newMap;
   }, []);
