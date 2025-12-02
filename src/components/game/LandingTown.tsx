@@ -73,7 +73,7 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
     newMap[3][MAP_WIDTH - 5] = TILE_BLOG;
     newMap[3][MAP_WIDTH - 4] = TILE_BLOG;
 
-    // Place New Jobs building (top-left)
+    // Place Jobs building (top-left)
     newMap[2][3] = TILE_JOBS;
     newMap[2][4] = TILE_JOBS;
     newMap[3][3] = TILE_JOBS;
@@ -148,7 +148,7 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
         { x: 3, y: 3 },
         { x: 4, y: 3 },
       ],
-      label: 'NEW JOBS',
+      label: 'JOBS',
       description: 'Explore tech jobs in a playable world',
       route: '/new-jobs',
       color: '#3b82f6',

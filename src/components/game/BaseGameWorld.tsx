@@ -54,6 +54,7 @@ export const BaseGameWorld: React.FC<BaseGameWorldProps> = ({
   const [nearBuilding, setNearBuilding] = useState<BuildingConfig | null>(null);
   const hasNavigatedRef = useRef(false);
   const toastIdRef = useRef<string | number | null>(null);
+  const buildingNameToastIdRef = useRef<string | number | null>(null);
 
   // Player state
   const playerRef = useRef({
@@ -118,8 +119,8 @@ export const BaseGameWorld: React.FC<BaseGameWorldProps> = ({
       } else if (key === "d" || key === "arrowright") {
         e.preventDefault();
         dir = "right";
-      } else if (key === " ") {
-        // Space to enter building directly
+      } else if (key === " " || key === "x") {
+        // Space or X to enter building directly
         e.preventDefault();
         if (nearBuilding) {
           playClickSound();
@@ -353,26 +354,90 @@ export const BaseGameWorld: React.FC<BaseGameWorldProps> = ({
   // Handle sonner toast for interaction hints
   useEffect(() => {
     if (nearBuilding) {
-      // Dismiss any existing toast
-      if (toastIdRef.current !== null) {
-        toast.dismiss(toastIdRef.current);
-      }
-      // Show new toast
-      const message = isMobile ? 'Tap X button to enter' : 'Press SPACE to enter';
-      toastIdRef.current = toast.info(message, {
-        duration: 5000,
-      });
-    } else {
-      // Dismiss toast when not near building
+      // Dismiss any existing toasts
       if (toastIdRef.current !== null) {
         toast.dismiss(toastIdRef.current);
         toastIdRef.current = null;
+      }
+      if (buildingNameToastIdRef.current !== null) {
+        toast.dismiss(buildingNameToastIdRef.current);
+        buildingNameToastIdRef.current = null;
+      }
+
+      // Show first toast: building name with building color
+      buildingNameToastIdRef.current = toast(nearBuilding.label, {
+        duration: 1000,
+        className: 'sonner-toast-building-name',
+        description: undefined,
+      });
+
+      // Apply building color styles directly to the toast element after it renders
+      const applyStyles = () => {
+        const toastElements = document.querySelectorAll('.sonner-toast-building-name[data-sonner-toast]');
+        const latestToast = Array.from(toastElements).pop() as HTMLElement;
+        if (latestToast) {
+          latestToast.style.setProperty('background-color', nearBuilding.color, 'important');
+          latestToast.style.setProperty('color', '#ffffff', 'important');
+          latestToast.style.setProperty('border', `2px solid ${nearBuilding.colorDark || nearBuilding.color}`, 'important');
+          latestToast.style.setProperty('border-color', nearBuilding.colorDark || nearBuilding.color, 'important');
+          
+          // Also style the title text
+          const titleElement = latestToast.querySelector('[data-title]') as HTMLElement;
+          if (titleElement) {
+            titleElement.style.setProperty('color', '#ffffff', 'important');
+          }
+        }
+      };
+
+      // Try immediately and after a short delay to ensure element is rendered
+      applyStyles();
+      setTimeout(applyStyles, 10);
+
+      // After 1 second, dismiss building name toast and show enter prompt
+      const timer = setTimeout(() => {
+        if (buildingNameToastIdRef.current !== null) {
+          toast.dismiss(buildingNameToastIdRef.current);
+          buildingNameToastIdRef.current = null;
+        }
+        
+        // Show second toast: enter prompt
+        const message = isMobile ? 'Tap X button to enter' : 'Press X or Space to enter';
+        toastIdRef.current = toast.info(message, {
+          duration: 5000,
+        });
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+        if (toastIdRef.current !== null) {
+          toast.dismiss(toastIdRef.current);
+          toastIdRef.current = null;
+        }
+        if (buildingNameToastIdRef.current !== null) {
+          toast.dismiss(buildingNameToastIdRef.current);
+          buildingNameToastIdRef.current = null;
+        }
+      };
+    } else {
+      // Dismiss toasts when not near building
+      if (toastIdRef.current !== null) {
+        toast.dismiss(toastIdRef.current);
+        toastIdRef.current = null;
+      }
+      if (buildingNameToastIdRef.current !== null) {
+        toast.dismiss(buildingNameToastIdRef.current);
+        buildingNameToastIdRef.current = null;
       }
     }
 
     return () => {
       if (toastIdRef.current !== null) {
         toast.dismiss(toastIdRef.current);
+        toastIdRef.current = null;
+      }
+      if (buildingNameToastIdRef.current !== null) {
+        toast.dismiss(buildingNameToastIdRef.current);
+        buildingNameToastIdRef.current = null;
       }
     };
   }, [nearBuilding, isMobile]);

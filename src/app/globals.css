@@ -343,6 +343,25 @@ input:-webkit-autofill:active {
   color: #f9fafb !important;
 }
 
+/* Sonner building name toast - uses building color from JavaScript-set styles */
+/* JavaScript will set styles with !important to override global rules */
+
+.sonner-toast-building-name[data-sonner-toast] [data-title],
+.sonner-toast-building-name[data-sonner-toast][data-styled="true"] [data-title],
+.sonner-toast-building-name[data-sonner-toast][data-theme="dark"] [data-title] {
+  color: #ffffff !important;
+}
+
+.sonner-toast-building-name[data-sonner-toast] [data-icon],
+.sonner-toast-building-name[data-sonner-toast][data-styled="true"] [data-icon],
+.sonner-toast-building-name[data-sonner-toast][data-theme="dark"] [data-icon] {
+  color: #ffffff !important;
+}
+
+.sonner-toast-building-name[data-sonner-toast] svg {
+  color: #ffffff !important;
+}
+
 /* Sonner positioning - below header on mobile */
 @media (max-width: 768px) {
   [data-sonner-toaster] {
