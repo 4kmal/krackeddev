@@ -490,7 +490,6 @@ export const WhitepaperScene: React.FC<WhitepaperSceneProps> = ({ onBack }) => {
                 </div>
               </div>
             </div>
-          </div>
         </>
       )}
 
