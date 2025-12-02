@@ -1,4 +1,4 @@
-import { TILE_SIZE, TILE_EMPTY, TILE_WALL, TILE_JOBS, TILE_BLOG, TILE_HACKATHON, TILE_CODE, TILE_PROFILE, TILE_WHITEPAPER, TILE_BACK_TO_TOWN, TILE_TREE, TILE_GRAVEL, TILE_PAVEMENT } from './constants';
+import { TILE_SIZE, TILE_EMPTY, TILE_WALL, TILE_JOBS, TILE_BLOG, TILE_HACKATHON, TILE_CODE, TILE_PROFILE, TILE_WHITEPAPER, TILE_BACK_TO_TOWN, TILE_TREE, TILE_GRAVEL, TILE_PAVEMENT, TILE_X } from './constants';
 import { spriteCache, getCharacterSpritePath } from './sprites';
 
 // Tile renderer
@@ -267,6 +267,25 @@ export function renderTile(
       ctx.fillStyle = "#e5e7eb"; // gray-200
       ctx.fillRect(px + 2, py + 2, TILE_SIZE / 2 - 4, TILE_SIZE / 2 - 4);
       ctx.fillRect(px + TILE_SIZE / 2 + 2, py + TILE_SIZE / 2 + 2, TILE_SIZE / 2 - 4, TILE_SIZE / 2 - 4);
+      break;
+
+    case TILE_X:
+      // X tile - black tile with X text
+      ctx.fillStyle = "#22c55e"; // green ground
+      ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+      ctx.fillStyle = "#000000"; // black
+      ctx.fillRect(px + 2, py + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+      // Draw X text
+      const xTextX = px + TILE_SIZE / 2;
+      const xTextY = py + TILE_SIZE / 2;
+      ctx.font = "bold 16px 'Press Start 2P', monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2;
+      ctx.strokeText("X", xTextX, xTextY);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("X", xTextX, xTextY);
       break;
   }
 }

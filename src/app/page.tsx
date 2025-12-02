@@ -82,7 +82,12 @@ export default function Home() {
         sessionStorage.setItem('skipWelcomeAnimation', 'true');
       }
     }
-    router.push(route);
+    // Check if route is an external URL
+    if (route.startsWith('http://') || route.startsWith('https://')) {
+      window.open(route, '_blank', 'noopener,noreferrer');
+    } else {
+      router.push(route);
+    }
   };
 
   return (

@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BaseGameWorld } from './BaseGameWorld';
-import { TILE_EMPTY, TILE_WALL, TILE_BLOG, TILE_JOBS, TILE_CODE, TILE_PROFILE, TILE_WHITEPAPER, MAP_WIDTH, MAP_HEIGHT } from '@/lib/game/constants';
+import { TILE_EMPTY, TILE_WALL, TILE_BLOG, TILE_JOBS, TILE_CODE, TILE_PROFILE, TILE_WHITEPAPER, TILE_X, MAP_WIDTH, MAP_HEIGHT } from '@/lib/game/constants';
 import { BuildingConfig } from '@/lib/game/types';
 import { CharacterStats, UserProfile } from '@/types/jobs';
 import { addGroundVariety, addTrees, connectBuildingsWithRoads } from '@/lib/game/mapHelpers';
@@ -97,6 +97,12 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
     newMap[MAP_HEIGHT - 4][Math.floor(MAP_WIDTH / 2) - 1] = TILE_WHITEPAPER;
     newMap[MAP_HEIGHT - 4][Math.floor(MAP_WIDTH / 2)] = TILE_WHITEPAPER;
 
+    // Place X tiles (2 tiles above spawn - spawn is at center, so Y=2 is 2 tiles above center Y=4)
+    const centerX = Math.floor(MAP_WIDTH / 2);
+    const xTileY = 2; // 2 tiles above spawn (spawn Y is around 4)
+    newMap[xTileY][centerX - 1] = TILE_X;
+    newMap[xTileY][centerX] = TILE_X;
+
     // Connect buildings with roads (before adding trees and variety)
     const buildingPositions = [
       [{ x: MAP_WIDTH - 5, y: 2 }, { x: MAP_WIDTH - 4, y: 2 }, { x: MAP_WIDTH - 5, y: 3 }, { x: MAP_WIDTH - 4, y: 3 }], // Blog
@@ -104,7 +110,8 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
       [{ x: 2, y: 5 }, { x: 3, y: 5 }, { x: 2, y: 6 }, { x: 3, y: 6 }], // Code
       [{ x: MAP_WIDTH - 4, y: 5 }, { x: MAP_WIDTH - 3, y: 5 }, { x: MAP_WIDTH - 4, y: 6 }, { x: MAP_WIDTH - 3, y: 6 }], // Profile
       [{ x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 3 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 3 },
-       { x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 4 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 4 }] // Whitepaper
+       { x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 4 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 4 }], // Whitepaper
+      [{ x: Math.floor(MAP_WIDTH / 2) - 1, y: 2 }, { x: Math.floor(MAP_WIDTH / 2), y: 2 }] // X tiles
     ];
     connectBuildingsWithRoads(newMap, buildingPositions);
 
@@ -116,7 +123,8 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
       { x: 2, y: 5 }, { x: 3, y: 5 }, { x: 2, y: 6 }, { x: 3, y: 6 }, // Code
       { x: MAP_WIDTH - 4, y: 5 }, { x: MAP_WIDTH - 3, y: 5 }, { x: MAP_WIDTH - 4, y: 6 }, { x: MAP_WIDTH - 3, y: 6 }, // Profile
       { x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 3 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 3 },
-      { x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 4 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 4 } // Whitepaper
+      { x: Math.floor(MAP_WIDTH / 2) - 1, y: MAP_HEIGHT - 4 }, { x: Math.floor(MAP_WIDTH / 2), y: MAP_HEIGHT - 4 }, // Whitepaper
+      { x: Math.floor(MAP_WIDTH / 2) - 1, y: 2 }, { x: Math.floor(MAP_WIDTH / 2), y: 2 } // X tiles
     ]);
 
     return newMap;
@@ -198,6 +206,19 @@ export const LandingTown: React.FC<LandingTownProps> = ({ onBuildingEnter }) => 
       route: '/whitepaper',
       color: '#eab308',
       colorDark: '#ca8a04',
+    },
+    {
+      id: 'x',
+      tileType: TILE_X,
+      positions: [
+        { x: Math.floor(MAP_WIDTH / 2) - 1, y: 2 },
+        { x: Math.floor(MAP_WIDTH / 2), y: 2 },
+      ],
+      label: 'JOIN US ON X',
+      description: 'Join our X community',
+      route: 'https://x.com/i/communities/1983062242292822298',
+      color: '#000000',
+      colorDark: '#000000',
     },
   ], []);
 

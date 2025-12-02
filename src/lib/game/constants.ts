@@ -17,4 +17,5 @@ export const TILE_BACK_TO_TOWN = 8;
 export const TILE_TREE = 9;
 export const TILE_GRAVEL = 10;
 export const TILE_PAVEMENT = 11;
+export const TILE_X = 12;
 
