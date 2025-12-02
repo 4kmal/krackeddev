@@ -59,7 +59,11 @@ const formatRelativeTime = (date: Date): string => {
   return date.toLocaleDateString();
 };
 
-export default function BlogPostPage() {
-  return <BlogPostClient />;
+export default function BlogPostPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  return <BlogPostClient slug={params.slug} />;
 }
 

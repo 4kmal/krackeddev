@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import {
   Card,
   CardHeader,
@@ -58,10 +57,7 @@ const formatRelativeTime = (date: Date): string => {
   return date.toLocaleDateString();
 };
 
-export default function BlogPostClient() {
-  const params = useParams();
-  const slug = params?.slug as string;
-
+export default function BlogPostClient({ slug }: { slug: string }) {
   const post = posts.find((p) => p.slug === slug);
 
   const [votes, setVotes] = useState(0);

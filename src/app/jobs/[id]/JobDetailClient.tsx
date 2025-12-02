@@ -1,12 +1,10 @@
 "use client";
 
 import React from 'react';
-import { useParams } from 'next/navigation';
 import '../jobs.css';
 
-export default function JobDetailClient() {
-  const params = useParams();
-  const jobId = params?.id as string;
+export default function JobDetailClient({ id }: { id: string }) {
+  const jobId = id;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
