@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { SupabaseProvider } from "./context/SupabaseContext";
-import { GitResumeProvider } from "./context/GitResumeContext";
-import { GitResumeLoginModal } from "@/components/GitResumeLoginModal";
+import { LoginModal } from "@/components/LoginModal";
 import { Toaster } from "sonner";
 import { MusicPlayer } from "@/components/game/MusicPlayer";
 import { SoundToggle } from "@/components/game/SoundToggle";
@@ -92,15 +90,12 @@ export default function RootLayout({
         )}
       >
         <SupabaseProvider>
-          <GitResumeProvider>
-            <MusicPlayer startPlaying={true} />
-            <SoundToggle />
-            <Navbar />
-            <div className="flex-grow">{children}</div>
-            {/* <Footer /> */}
-            <Toaster theme="dark" position="top-center" offset={16} />
-            <GitResumeLoginModal />
-          </GitResumeProvider>
+          <MusicPlayer startPlaying={true} />
+          <SoundToggle />
+          <Navbar />
+          <div className="flex-grow">{children}</div>
+          <Toaster theme="dark" position="top-center" offset={16} />
+          <LoginModal />
         </SupabaseProvider>
       </body>
     </html>

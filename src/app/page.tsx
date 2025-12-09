@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SplitTextAnimation from "./components/SplitTextAnimation";
 import { LandingTown } from "@/components/game/LandingTown";
-import { useGitResume } from "@/app/context/GitResumeContext";
+import { useSupabase } from "@/app/context/SupabaseContext";
 import "./jobs/jobs.css";
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, openLoginModal } = useGitResume();
+  const { isAuthenticated, loading, openLoginModal } = useSupabase();
   const [showAnimation, setShowAnimation] = useState(true);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
@@ -28,7 +28,7 @@ export default function Home() {
 
       // Check 12-hour localStorage logic
       const LAST_WELCOME_KEY = "krackedDevs_lastWelcomeTime";
-      const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+      const ONE_HOUR_MS = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
 
       const lastWelcomeTime = localStorage.getItem(LAST_WELCOME_KEY);
       const now = Date.now();
@@ -36,7 +36,7 @@ export default function Home() {
       if (lastWelcomeTime) {
         const timeSinceLastWelcome = now - parseInt(lastWelcomeTime, 10);
         // If less than 12 hours have passed, skip animation
-        if (timeSinceLastWelcome < TWELVE_HOURS_MS) {
+        if (timeSinceLastWelcome < ONE_HOUR_MS) {
           setShowAnimation(false);
           setAnimationDone(true);
           return;
@@ -50,14 +50,14 @@ export default function Home() {
 
   // Auto-open login modal when animation is done and user is not authenticated
   useEffect(() => {
-    if (animationDone && !isLoading && !isAuthenticated) {
+    if (animationDone && !loading && !isAuthenticated) {
       // Small delay to let the town render first
       const timer = setTimeout(() => {
         openLoginModal();
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [animationDone, isLoading, isAuthenticated, openLoginModal]);
+  }, [animationDone, loading, isAuthenticated, openLoginModal]);
 
   const handleAnimationComplete = () => {
     // Save the current timestamp when animation completes

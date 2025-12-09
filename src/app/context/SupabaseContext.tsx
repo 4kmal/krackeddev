@@ -5,6 +5,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useCallback,
   ReactNode,
 } from "react";
 import { supabase } from "@/lib/supabase";
@@ -13,16 +14,24 @@ import type {
   Session,
   SupabaseClient,
   AuthChangeEvent,
+  Provider,
 } from "@supabase/supabase-js";
+import type { Profile } from "@/types/database";
 
 interface SupabaseContextType {
   supabase: SupabaseClient | null;
   user: User | null;
+  profile: Profile | null;
   session: Session | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  isAuthenticated: boolean;
+  isLoginModalOpen: boolean;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
+  signInWithOAuth: (provider: Provider) => Promise<void>;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
+  updateProfile: (updates: Partial<Profile>) => Promise<void>;
 }
 
 const SupabaseContext = createContext<SupabaseContextType | undefined>(
@@ -31,8 +40,44 @@ const SupabaseContext = createContext<SupabaseContextType | undefined>(
 
 export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  // Fetch user profile from profiles table
+  const fetchProfile = useCallback(async (userId: string) => {
+    if (!supabase) return null;
+
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        // Profile might not exist yet (trigger hasn't run)
+        console.log(
+          "Profile not found, may be created shortly:",
+          error.message
+        );
+        return null;
+      }
+
+      return data as Profile;
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      return null;
+    }
+  }, []);
+
+  // Refresh profile data
+  const refreshProfile = useCallback(async () => {
+    if (!user) return;
+    const profileData = await fetchProfile(user.id);
+    setProfile(profileData);
+  }, [user, fetchProfile]);
 
   useEffect(() => {
     // Skip if supabase is not available (e.g., during build)
@@ -50,6 +95,12 @@ export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
         } = await supabaseClient.auth.getSession();
         setSession(initialSession);
         setUser(initialSession?.user ?? null);
+
+        // Fetch profile if user exists
+        if (initialSession?.user) {
+          const profileData = await fetchProfile(initialSession.user.id);
+          setProfile(profileData);
+        }
       } catch (error) {
         console.error("Error getting initial session:", error);
       } finally {
@@ -67,6 +118,18 @@ export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
         console.log("Auth state changed:", event);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
+
+        // Fetch profile on sign in, clear on sign out
+        if (currentSession?.user) {
+          // Small delay to allow trigger to create profile
+          setTimeout(async () => {
+            const profileData = await fetchProfile(currentSession.user.id);
+            setProfile(profileData);
+          }, 500);
+        } else {
+          setProfile(null);
+        }
+
         setLoading(false);
       }
     );
@@ -74,22 +137,32 @@ export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.unsubscribe();
     };
+  }, [fetchProfile]);
+
+  const openLoginModal = useCallback(() => {
+    setIsLoginModalOpen(true);
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    if (!supabase) throw new Error("Supabase not initialized");
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-  };
+  const closeLoginModal = useCallback(() => {
+    // Only allow closing if user is authenticated
+    if (user) {
+      setIsLoginModalOpen(false);
+    }
+  }, [user]);
 
-  const signUp = async (email: string, password: string) => {
+  const signInWithOAuth = async (provider: Provider) => {
     if (!supabase) throw new Error("Supabase not initialized");
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
+
+    const redirectTo =
+      typeof window !== "undefined"
+        ? `${window.location.origin}/auth/callback`
+        : process.env.NEXT_PUBLIC_SUPABASE_OAUTH_CALLBACK_URL;
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo,
+      },
     });
     if (error) throw error;
   };
@@ -98,6 +171,23 @@ export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
     if (!supabase) throw new Error("Supabase not initialized");
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
+    setProfile(null);
+    closeLoginModal();
+  };
+
+  // Update user profile
+  const updateProfile = async (updates: Partial<Profile>) => {
+    if (!supabase || !user) throw new Error("Not authenticated");
+
+    const { error } = await supabase
+      .from("profiles")
+      .update(updates)
+      .eq("id", user.id);
+
+    if (error) throw error;
+
+    // Refresh profile after update
+    await refreshProfile();
   };
 
   return (
@@ -105,11 +195,17 @@ export const SupabaseProvider = ({ children }: { children: ReactNode }) => {
       value={{
         supabase,
         user,
+        profile,
         session,
         loading,
-        signIn,
-        signUp,
+        isAuthenticated: !!user,
+        isLoginModalOpen,
+        openLoginModal,
+        closeLoginModal,
+        signInWithOAuth,
         signOut,
+        refreshProfile,
+        updateProfile,
       }}
     >
       {children}

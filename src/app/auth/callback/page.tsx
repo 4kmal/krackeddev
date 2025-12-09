@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useGitResume } from "@/app/context/GitResumeContext";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 import { Suspense } from "react";
 
 function CallbackContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const { setUserFromCallback } = useGitResume();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
@@ -16,38 +14,69 @@ function CallbackContent() {
 
   useEffect(() => {
     const handleCallback = async () => {
-      const username = searchParams.get("username");
-      const error = searchParams.get("error");
-
-      if (error) {
+      if (!supabase) {
         setStatus("error");
-        setErrorMessage(error);
+        setErrorMessage("Authentication service not available");
         return;
       }
 
-      if (username) {
-        try {
-          // Store the username in context and Supabase
-          await setUserFromCallback(username);
-          setStatus("success");
+      try {
+        // Supabase handles the OAuth callback automatically via detectSessionInUrl
+        // We just need to check if the session was established
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
 
+        if (error) {
+          console.error("Auth callback error:", error);
+          setStatus("error");
+          setErrorMessage(error.message);
+          return;
+        }
+
+        if (session) {
+          setStatus("success");
           // Redirect to home after a brief delay
           setTimeout(() => {
             router.push("/");
           }, 1500);
-        } catch (err) {
-          console.error("Error saving user:", err);
-          setStatus("error");
-          setErrorMessage("Failed to save your profile. Please try again.");
+        } else {
+          // No session yet - might still be processing
+          // Wait a moment and try again
+          setTimeout(async () => {
+            if (!supabase) {
+              setStatus("error");
+              setErrorMessage("Authentication service not available");
+              return;
+            }
+
+            const { data: retryData, error: retryError } =
+              await supabase.auth.getSession();
+
+            if (retryError || !retryData.session) {
+              setStatus("error");
+              setErrorMessage(
+                retryError?.message ||
+                  "Authentication failed. Please try again."
+              );
+            } else {
+              setStatus("success");
+              setTimeout(() => {
+                router.push("/");
+              }, 1500);
+            }
+          }, 1000);
         }
-      } else {
+      } catch (err) {
+        console.error("Error during auth callback:", err);
         setStatus("error");
-        setErrorMessage("No username received from GitResu.me");
+        setErrorMessage("An unexpected error occurred. Please try again.");
       }
     };
 
     handleCallback();
-  }, [searchParams, setUserFromCallback, router]);
+  }, [router]);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-[--background]">
