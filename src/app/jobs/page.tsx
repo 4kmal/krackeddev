@@ -1,48 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { JobsFilter } from "@/components/jobs/jobs-filter";
 import { JobsTable } from "@/components/jobs/jobs-table";
+import { JobsFilter } from "@/components/jobs/jobs-filter";
 
 export default function JobsPage() {
-  const [search, setSearch] = useState("");
-  const [location, setLocation] = useState("");
-  const [type, setType] = useState("");
-  const [salaryMin, setSalaryMin] = useState(0);
-
   return (
     <main className="min-h-screen pt-32 pb-16">
       <div className="container mx-auto px-4 space-y-12">
-        {/* Header Section */}
         <div className="space-y-4">
-          <h1 className="text-2xl md:text-5xl font-mono text-white font-bold tracking-tight">
-            Find your next career destination
+          <h1 className="text-4xl md:text-5xl font-bold font-mono text-white tracking-tight">
+            Job Board
           </h1>
-          <p className="text-gray-400 font-mono max-w-2xl text-sm md:text-lg">
-            Explore the largest, most updated collections of tech jobs in
-            Malaysia for you.
+          <p className="text-gray-400 font-mono text-lg max-w-2xl">
+            Find your next role in the Malaysian tech ecosystem.
+            <br className="hidden md:block" />
+            Curated opportunities for developers, by developers.
           </p>
         </div>
 
-        {/* Filter Section */}
-        <JobsFilter
-          search={search}
-          setSearch={setSearch}
-          location={location}
-          setLocation={setLocation}
-          type={type}
-          setType={setType}
-          salaryMin={salaryMin}
-          setSalaryMin={setSalaryMin}
-        />
+        <JobsFilter />
 
-        {/* Table Section */}
-        <JobsTable
-          search={search}
-          location={location}
-          type={type}
-          salaryMin={salaryMin}
-        />
+        <JobsTable />
       </div>
     </main>
   );

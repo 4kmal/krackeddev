@@ -10,23 +10,20 @@ import { columns } from "./columns";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useQueryStates } from "nuqs";
+import { jobSearchParams } from "@/lib/search-params";
 
-interface JobsTableProps {
-  search: string;
-  location?: string;
-  type?: string;
-  salaryMin?: number;
-}
-
-export function JobsTable({
-  search,
-  location,
-  type,
-  salaryMin,
-}: JobsTableProps) {
+export function JobsTable() {
   const router = useRouter();
+  const [filters] = useQueryStates(jobSearchParams);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useJobs({ search, location, type, salaryMin });
+    useJobs({
+      search: filters.search || "",
+      location: filters.location || "",
+      type: filters.type || "",
+      salaryMin: filters.salaryMin || 0,
+    });
 
   const { ref, inView } = useInView();
 

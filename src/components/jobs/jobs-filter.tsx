@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useQueryState } from "nuqs";
+import { jobSearchParams } from "@/lib/search-params";
 import {
   Search,
   MapPin,
@@ -15,8 +17,6 @@ import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -27,36 +27,27 @@ import { useJobFilters } from "@/lib/hooks/jobs/use-job-filters";
 import { SALARY_RANGE_OPTIONS, POPULAR_LOCATIONS } from "@/lib/constants/jobs";
 import { cn } from "@/lib/utils";
 
-interface JobsFilterProps {
-  search: string;
-  setSearch: (value: string) => void;
-  location: string;
-  setLocation: (value: string) => void;
-  type: string;
-  setType: (value: string) => void;
-  salaryMin: number;
-  setSalaryMin: (value: number) => void;
-}
+export function JobsFilter() {
+  const [search, setSearch] = useQueryState("search", jobSearchParams.search);
+  const [location, setLocation] = useQueryState(
+    "location",
+    jobSearchParams.location
+  );
+  const [type, setType] = useQueryState("type", jobSearchParams.type);
+  const [salaryMin, setSalaryMin] = useQueryState(
+    "salaryMin",
+    jobSearchParams.salaryMin
+  );
 
-export function JobsFilter({
-  search,
-  setSearch,
-  location,
-  setLocation,
-  type,
-  setType,
-  salaryMin,
-  setSalaryMin,
-}: JobsFilterProps) {
   const { data: filters, isLoading } = useJobFilters();
-  const [localSearch, setLocalSearch] = useState(search);
+  const [localSearch, setLocalSearch] = useState(search || "");
 
   useEffect(() => {
-    setLocalSearch(search);
+    setLocalSearch(search || "");
   }, [search]);
 
   const handleSearch = () => {
-    setSearch(localSearch);
+    setSearch(localSearch || null); // Clear if empty
   };
 
   return (
@@ -111,7 +102,7 @@ export function JobsFilter({
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setLocation("");
+                      setLocation(null);
                     }}
                   >
                     <X className="w-3 h-3" />
@@ -128,8 +119,8 @@ export function JobsFilter({
               <DropdownMenuLabel>Select Location</DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuRadioGroup
-                value={location}
-                onValueChange={setLocation}
+                value={location || ""}
+                onValueChange={(val) => setLocation(val || null)}
               >
                 <DropdownMenuRadioItem
                   value=""
@@ -170,7 +161,7 @@ export function JobsFilter({
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setType("");
+                      setType(null);
                     }}
                   >
                     <X className="w-3 h-3" />
@@ -186,7 +177,10 @@ export function JobsFilter({
             >
               <DropdownMenuLabel>Select Type</DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-white/10" />
-              <DropdownMenuRadioGroup value={type} onValueChange={setType}>
+              <DropdownMenuRadioGroup
+                value={type || ""}
+                onValueChange={(val) => setType(val || null)}
+              >
                 <DropdownMenuRadioItem
                   value=""
                   className="focus:bg-white/10 focus:text-white cursor-pointer"
@@ -213,14 +207,14 @@ export function JobsFilter({
                 variant="outline"
                 className={cn(
                   "bg-transparent border-white/20 text-gray-300 hover:text-white hover:border-white hover:bg-transparent rounded-none h-8 md:h-10 text-xs md:text-sm gap-2",
-                  salaryMin > 0 && "text-white border-white bg-white/5"
+                  (salaryMin || 0) > 0 && "text-white border-white bg-white/5"
                 )}
               >
                 <DollarSign className="w-3 h-3 md:w-4 md:h-4" />
-                {salaryMin > 0
-                  ? `> RM ${salaryMin.toLocaleString()}`
+                {(salaryMin || 0) > 0
+                  ? `> RM ${(salaryMin || 0).toLocaleString()}`
                   : "Salary Range"}
-                {salaryMin > 0 ? (
+                {(salaryMin || 0) > 0 ? (
                   <div
                     role="button"
                     className="ml-1 rounded-full p-0.5 hover:bg-white/20"
@@ -228,7 +222,7 @@ export function JobsFilter({
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setSalaryMin(0);
+                      setSalaryMin(null);
                     }}
                   >
                     <X className="w-3 h-3" />
@@ -245,8 +239,8 @@ export function JobsFilter({
               <DropdownMenuLabel>Minimum Salary</DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuRadioGroup
-                value={salaryMin.toString()}
-                onValueChange={(v) => setSalaryMin(parseInt(v))}
+                value={(salaryMin || 0).toString()}
+                onValueChange={(v) => setSalaryMin(parseInt(v) || null)}
               >
                 {SALARY_RANGE_OPTIONS.map((opt) => (
                   <DropdownMenuRadioItem

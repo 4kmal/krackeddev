@@ -7,8 +7,9 @@ import { LoginModal } from "@/components/LoginModal";
 import { Toaster } from "sonner";
 import { MusicPlayer } from "@/components/game/MusicPlayer";
 import { SoundToggle } from "@/components/game/SoundToggle";
-
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import QueryProvider from "@/components/providers/query-provider";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://krackeddevs.com/"
@@ -92,12 +93,14 @@ export default function RootLayout({
       >
         <SupabaseProvider>
           <QueryProvider>
-            <MusicPlayer startPlaying={true} />
-            <SoundToggle />
-            <Navbar />
-            <div className="flex-grow">{children}</div>
-            <Toaster theme="dark" position="top-center" offset={16} />
-            <LoginModal />
+            <NuqsAdapter>
+              <MusicPlayer startPlaying={true} />
+              <SoundToggle />
+              <Navbar />
+              <div className="flex-grow">{children}</div>
+              <Toaster theme="dark" position="top-center" offset={16} />
+              <LoginModal />
+            </NuqsAdapter>
           </QueryProvider>
         </SupabaseProvider>
       </body>
