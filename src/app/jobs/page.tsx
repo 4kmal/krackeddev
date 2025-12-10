@@ -6,6 +6,9 @@ import { JobsTable } from "@/components/jobs/jobs-table";
 
 export default function JobsPage() {
   const [search, setSearch] = useState("");
+  const [location, setLocation] = useState("");
+  const [type, setType] = useState("");
+  const [salaryMin, setSalaryMin] = useState(0);
 
   return (
     <main className="min-h-screen pt-32 pb-16">
@@ -22,10 +25,24 @@ export default function JobsPage() {
         </div>
 
         {/* Filter Section */}
-        <JobsFilter search={search} setSearch={setSearch} />
+        <JobsFilter
+          search={search}
+          setSearch={setSearch}
+          location={location}
+          setLocation={setLocation}
+          type={type}
+          setType={setType}
+          salaryMin={salaryMin}
+          setSalaryMin={setSalaryMin}
+        />
 
         {/* Table Section */}
-        <JobsTable search={search} />
+        <JobsTable
+          search={search}
+          location={location}
+          type={type}
+          salaryMin={salaryMin}
+        />
       </div>
     </main>
   );

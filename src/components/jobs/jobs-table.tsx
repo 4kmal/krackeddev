@@ -12,11 +12,19 @@ import { useEffect, useMemo } from "react";
 
 interface JobsTableProps {
   search: string;
+  location?: string;
+  type?: string;
+  salaryMin?: number;
 }
 
-export function JobsTable({ search }: JobsTableProps) {
+export function JobsTable({
+  search,
+  location,
+  type,
+  salaryMin,
+}: JobsTableProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useJobs({ search });
+    useJobs({ search, location, type, salaryMin });
 
   const { ref, inView } = useInView();
 
