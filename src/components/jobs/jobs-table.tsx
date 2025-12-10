@@ -9,6 +9,7 @@ import { useJobs } from "@/lib/hooks/jobs/use-jobs";
 import { columns } from "./columns";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
 interface JobsTableProps {
   search: string;
@@ -23,6 +24,7 @@ export function JobsTable({
   type,
   salaryMin,
 }: JobsTableProps) {
+  const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useJobs({ search, location, type, salaryMin });
 
@@ -92,7 +94,8 @@ export function JobsTable({
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-b border-white/10 hover:bg-white/5 transition-colors"
+                  onClick={() => router.push(`/jobs/${row.original.id}`)}
+                  className="border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
@@ -134,7 +137,8 @@ export function JobsTable({
           return (
             <div
               key={job.id || i}
-              className="border border-white/20 p-5 space-y-3 bg-[#0A0A0A]"
+              onClick={() => router.push(`/jobs/${job.id}`)}
+              className="border border-white/20 p-5 space-y-3 bg-[#0A0A0A] cursor-pointer"
             >
               <div>
                 <h3 className="text-white font-semibold text-lg leading-tight mb-1">

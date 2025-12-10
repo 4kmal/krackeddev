@@ -1,4 +1,4 @@
-import JobDetailClient from './JobDetailClient';
+import JobDetailClient from "./job-detail-client";
 
 export default async function JobDetailPage({
   params,
