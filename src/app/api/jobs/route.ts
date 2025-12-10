@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { jobs } from "@/lib/db/schema";
 import { and, desc, eq, gte, ilike, lte, or, sql } from "drizzle-orm";
 
+export const runtime = "edge";
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -27,7 +29,7 @@ export async function GET(req: NextRequest) {
     if (search) {
       const searchLower = `%${search.toLowerCase()}%`;
       conditions.push(
-        or(ilike(jobs.title, searchLower), ilike(jobs.company, searchLower))!
+        or(ilike(jobs.title, searchLower), ilike(jobs.company, searchLower))!,
       );
     }
 
@@ -79,7 +81,7 @@ export async function GET(req: NextRequest) {
     console.error("Error fetching jobs:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

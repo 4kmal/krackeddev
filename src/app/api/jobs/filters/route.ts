@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { jobs } from "@/lib/db/schema";
 import { isNotNull } from "drizzle-orm";
 
+export const runtime = "edge";
+
 export async function GET() {
   try {
     // parallel fetch
@@ -39,7 +41,7 @@ export async function GET() {
     console.error("Error fetching job filters:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
