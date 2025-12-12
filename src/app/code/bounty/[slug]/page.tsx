@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, use } from "react";
+import React, { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -14,6 +14,10 @@ import {
   AlertCircle,
   Send,
   Github,
+  Twitter,
+  Calendar,
+  User,
+  LogOut,
 } from "lucide-react";
 import { getBountyBySlug } from "@/lib/bounty";
 import {
@@ -21,6 +25,7 @@ import {
   BountyStatus,
   BountySubmission,
 } from "@/lib/bounty/types";
+import { useSupabase } from "@/context/SupabaseContext";
 import "@/styles/jobs.css";
 
 const difficultyColors: Record<BountyDifficulty, string> = {
@@ -76,6 +81,20 @@ function SubmissionCard({ submission }: { submission: BountySubmission }) {
   );
 }
 
+// X/Twitter icon component
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 export default function BountyDetailPage({
   params,
 }: {
@@ -84,11 +103,67 @@ export default function BountyDetailPage({
   const { slug } = use(params);
   const router = useRouter();
   const bounty = getBountyBySlug(slug);
+  const { supabase, user, profile, openLoginModal, signOut } = useSupabase();
 
   const [prUrl, setPrUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const [submissions, setSubmissions] = useState<BountySubmission[]>([]);
+
+  useEffect(() => {
+    // Always seed from local/static data so the UI isn't empty
+    setSubmissions(bounty?.submissions ?? []);
+
+    if (!supabase || !bounty) return;
+
+    let cancelled = false;
+
+    const load = async () => {
+      const { data, error } = await supabase
+        .from("bounty_submissions")
+        .select(
+          "id, pull_request_url, status, notes, created_at, user_id, submitter:profiles!bounty_submissions_user_id_fkey (username, full_name)"
+        )
+        .eq("bounty_slug", slug)
+        .order("created_at", { ascending: false });
+
+      if (cancelled) return;
+
+      if (error) {
+        console.error("Failed to load bounty submissions:", error);
+        return;
+      }
+
+      const mapped: BountySubmission[] = (data ?? []).map((row: any) => {
+        const submittedBy =
+          row?.submitter?.username ||
+          row?.submitter?.full_name ||
+          (typeof row?.user_id === "string"
+            ? `${row.user_id.slice(0, 8)}…`
+            : "Unknown");
+
+        return {
+          id: row.id,
+          bountyId: bounty.id,
+          pullRequestUrl: row.pull_request_url,
+          submittedBy,
+          submittedAt: row.created_at ?? new Date().toISOString(),
+          status: row.status,
+          notes: row.notes ?? undefined,
+        };
+      });
+
+      setSubmissions(mapped);
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [bounty, slug, supabase]);
 
   if (!bounty) {
     return (
@@ -127,48 +202,172 @@ export default function BountyDetailPage({
       return;
     }
 
+    if (!supabase) {
+      setError(
+        "Submissions are temporarily unavailable (Supabase not configured)."
+      );
+      return;
+    }
+
+    if (!user || !bounty) {
+      setError("Please sign in to submit a solution.");
+      openLoginModal();
+      return;
+    }
+
     setSubmitting(true);
 
-    // Simulate submission (in real app, this would be an API call)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { data, error } = await supabase
+      .from("bounty_submissions")
+      .insert({
+        bounty_slug: bounty.slug,
+        bounty_title: bounty.title,
+        bounty_reward: bounty.reward,
+        user_id: user.id,
+        pull_request_url: prUrl.trim(),
+      })
+      .select("id, pull_request_url, status, notes, created_at, user_id")
+      .single();
+
+    if (error) {
+      setSubmitting(false);
+      setError(error.message);
+      return;
+    }
 
     setSubmitting(false);
     setSubmitted(true);
+
+    if (data) {
+      const submittedBy =
+        profile?.username ||
+        profile?.full_name ||
+        (typeof user.id === "string" ? `${user.id.slice(0, 8)}…` : "You");
+
+      setSubmissions((prev) => [
+        {
+          id: data.id,
+          bountyId: bounty.id,
+          pullRequestUrl: data.pull_request_url,
+          submittedBy,
+          submittedAt: data.created_at ?? new Date().toISOString(),
+          status: (data.status ?? "pending") as
+            | "pending"
+            | "approved"
+            | "rejected",
+          notes: data.notes ?? undefined,
+        },
+        ...prev,
+      ]);
+    }
+
     setPrUrl("");
   };
 
   const canSubmit = bounty.status === "active" || bounty.status === "claimed";
 
+  const formatDeadline = (deadline: string) => {
+    const date = new Date(deadline);
+    return date.toLocaleDateString("en-MY", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    });
+  };
+
+  const isDeadlinePassed = new Date(bounty.deadline) < new Date();
+
   return (
     <main className="min-h-screen bg-gray-900 relative">
       <div className="scanlines fixed inset-0 pointer-events-none z-50"></div>
 
+      {/* Header with Sign Out Button */}
+      <div className="bg-gray-800/50 border-b border-gray-700 sticky top-0 z-40 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-3 max-w-4xl">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => router.push("/code/bounty")}
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors font-mono text-sm"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              <span className="hidden md:inline">Back to Bounty Board</span>
+              <span className="md:hidden">Back</span>
+            </button>
+
+            <button
+              onClick={() => setShowSignOutConfirm(true)}
+              className="hidden md:flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-mono text-sm px-3 py-1.5 border border-gray-700 hover:border-gray-600"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Sign Out Confirmation Modal */}
+      {showSignOutConfirm && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[60] p-4">
+          <div className="bg-gray-900 border-2 border-cyan-500 p-6 max-w-md w-full">
+            <h2 className="text-xl font-mono text-cyan-400 mb-4">
+              CONFIRM SIGN OUT
+            </h2>
+            <p className="text-gray-300 mb-6">
+              Are you sure you want to sign out?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowSignOutConfirm(false)}
+                className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-mono py-2 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowSignOutConfirm(false);
+                  signOut();
+                }}
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white font-mono py-2 transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4 py-8 relative z-10 max-w-4xl">
-        {/* Back Button */}
-        <button
-          onClick={() => router.push("/code/bounty")}
-          className="inline-flex items-center text-gray-400 hover:text-white transition-colors font-mono text-sm mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Bounty Board
-        </button>
+        {/* Mobile Sign Out Button - Inline with content */}
+        <div className="md:hidden mb-4 flex justify-end">
+          <button
+            onClick={() => setShowSignOutConfirm(true)}
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-mono text-sm px-3 py-1.5 border border-gray-700 hover:border-gray-600"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </button>
+        </div>
 
         {/* Header */}
         <div className="mb-8">
-          {/* Reward Badge */}
-          <div className="flex items-center gap-4 mb-4">
-            <div className="bg-yellow-500 text-black px-4 py-2 font-mono font-bold text-xl">
-              RM{bounty.reward}
-            </div>
+          {/* Bounty Number & Status */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-gray-500 font-mono text-sm">
+              BOUNTY #{bounty.id}
+            </span>
             <span
-              className={`px-3 py-1 text-sm font-mono border ${
+              className={`px-3 py-1 text-xs font-mono border ${
                 statusColors[bounty.status]
               }`}
             >
               {bounty.status.toUpperCase()}
             </span>
             <span
-              className={`px-3 py-1 text-sm font-mono border ${
+              className={`px-3 py-1 text-xs font-mono border ${
                 difficultyColors[bounty.difficulty]
               }`}
             >
@@ -176,35 +375,111 @@ export default function BountyDetailPage({
             </span>
           </div>
 
+          {/* Title */}
           <h1 className="text-2xl md:text-3xl font-bold font-mono text-white mb-4">
             {bounty.title}
           </h1>
 
+          {/* Description */}
           <p className="text-gray-400 text-lg">{bounty.description}</p>
+
+          {/* Reward Badge */}
+          <div className="mt-6 inline-block bg-yellow-500 text-black px-6 py-3 font-mono font-bold text-2xl">
+            RM{bounty.reward}
+          </div>
         </div>
 
-        {/* Meta Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {bounty.deadline && (
-            <div className="bg-gray-800/30 border border-gray-700 p-4 flex items-center gap-3">
-              <Clock className="w-5 h-5 text-gray-500" />
-              <div>
-                <div className="text-gray-500 text-xs font-mono">DEADLINE</div>
-                <div className="text-white font-mono">
-                  {new Date(bounty.deadline).toLocaleDateString("en-US", {
+        {/* Winner Section - Show prominently for completed bounties */}
+        {bounty.status === "completed" && bounty.winner && (
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-yellow-500/10 to-green-500/10 border-2 border-yellow-500/50 p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Trophy className="w-8 h-8 text-yellow-500" />
+                <h2 className="text-2xl font-mono text-yellow-400 font-bold">
+                  WINNER
+                </h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gray-800 border-2 border-yellow-500/50 flex items-center justify-center text-3xl">
+                  🏆
+                </div>
+                <div>
+                  <div className="text-white font-mono text-xl mb-1">
+                    {bounty.winner.name}
+                  </div>
+                  <a
+                    href={bounty.winner.xUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-400 hover:text-cyan-300 font-mono flex items-center gap-2"
+                  >
+                    <XIcon className="w-4 h-4" />@{bounty.winner.xHandle}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+              {bounty.winner.submissionUrl && (
+                <a
+                  href={bounty.winner.submissionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 text-green-400 hover:text-green-300 font-mono text-sm"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  View Winning Submission
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+              {bounty.completedAt && (
+                <div className="text-gray-500 text-xs mt-4 font-mono">
+                  Completed on{" "}
+                  {new Date(bounty.completedAt).toLocaleDateString("en-MY", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Meta Info Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {/* Deadline */}
+          <div className="bg-gray-800/30 border border-gray-700 p-4">
+            <div className="flex items-center gap-3">
+              <Clock
+                className={`w-5 h-5 ${
+                  isDeadlinePassed ? "text-red-500" : "text-gray-500"
+                }`}
+              />
+              <div>
+                <div className="text-gray-500 text-xs font-mono">DEADLINE</div>
+                <div
+                  className={`font-mono text-sm ${
+                    isDeadlinePassed ? "text-red-400" : "text-white"
+                  }`}
+                >
+                  {formatDeadline(bounty.deadline)}
+                </div>
+                {isDeadlinePassed && (
+                  <span className="text-red-400 text-xs font-mono">
+                    (Deadline passed)
+                  </span>
+                )}
               </div>
             </div>
-          )}
-          <div className="bg-gray-800/30 border border-gray-700 p-4 flex items-center gap-3">
-            <Trophy className="w-5 h-5 text-yellow-500" />
-            <div>
-              <div className="text-gray-500 text-xs font-mono">REWARD</div>
-              <div className="text-white font-mono">RM{bounty.reward}</div>
+          </div>
+
+          {/* Reward */}
+          <div className="bg-gray-800/30 border border-gray-700 p-4">
+            <div className="flex items-center gap-3">
+              <Trophy className="w-5 h-5 text-yellow-500" />
+              <div>
+                <div className="text-gray-500 text-xs font-mono">REWARD</div>
+                <div className="text-white font-mono">RM{bounty.reward}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -226,7 +501,7 @@ export default function BountyDetailPage({
 
         {/* Long Description */}
         <div className="mb-8">
-          <h2 className="text-lg font-mono text-white mb-4">DESCRIPTION</h2>
+          <h2 className="text-lg font-mono text-white mb-4">DETAILS</h2>
           <div className="bg-gray-800/30 border border-gray-700 p-6">
             <div className="prose prose-invert max-w-none prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700">
               <pre className="whitespace-pre-wrap font-mono text-sm text-gray-300 leading-relaxed">
@@ -235,52 +510,6 @@ export default function BountyDetailPage({
             </div>
           </div>
         </div>
-
-        {/* Winner Section - Only show for completed bounties */}
-        {bounty.status === "completed" && bounty.submissions.length > 0 && (
-          <div className="mb-8">
-            {bounty.submissions
-              .filter((sub) => sub.status === "approved")
-              .map((winner) => (
-                <div
-                  key={winner.id}
-                  className="bg-gradient-to-r from-yellow-500/10 to-green-500/10 border-2 border-yellow-500/50 p-6"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Trophy className="w-6 h-6 text-yellow-500" />
-                        <h2 className="text-xl font-mono text-yellow-400">
-                          WINNER
-                        </h2>
-                      </div>
-                      <div className="text-white font-mono text-lg mb-2">
-                        🏆 {winner.submittedBy}
-                      </div>
-                      <a
-                        href={winner.pullRequestUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-cyan-400 hover:text-cyan-300 font-mono text-sm flex items-center gap-1 mb-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View Winning Submission
-                      </a>
-                      {winner.notes && (
-                        <p className="text-gray-300 text-sm mt-3">
-                          {winner.notes}
-                        </p>
-                      )}
-                      <div className="text-gray-500 text-xs mt-2">
-                        Completed on{" "}
-                        {new Date(winner.submittedAt).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
 
         {/* Requirements */}
         <div className="mb-8">
@@ -298,35 +527,50 @@ export default function BountyDetailPage({
         </div>
 
         {/* Links */}
-        <div className="mb-8 flex flex-wrap gap-4">
-          <a
-            href={bounty.repositoryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gray-800 border border-gray-700 px-4 py-2 text-white hover:bg-gray-700 transition-colors font-mono text-sm"
-          >
-            <Github className="w-4 h-4" />
-            View Repository
-            <ExternalLink className="w-3 h-3" />
-          </a>
-          {bounty.issueUrl && (
+        <div className="mb-8">
+          <h2 className="text-lg font-mono text-white mb-4">LINKS</h2>
+          <div className="flex flex-wrap gap-4">
+            {/* Bounty Post on X */}
             <a
-              href={bounty.issueUrl}
+              href={bounty.bountyPostUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gray-800 border border-gray-700 px-4 py-2 text-white hover:bg-gray-700 transition-colors font-mono text-sm"
             >
-              <AlertCircle className="w-4 h-4" />
-              {bounty.issueUrl.includes("x.com") ||
-              bounty.issueUrl.includes("twitter.com")
-                ? "View Bounty Post"
-                : "View Issue"}
+              <XIcon className="w-4 h-4" />
+              View Bounty Post
               <ExternalLink className="w-3 h-3" />
             </a>
-          )}
+
+            {/* Submission/Winner Post on X */}
+            {bounty.submissionPostUrl && (
+              <a
+                href={bounty.submissionPostUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gray-800 border border-gray-700 px-4 py-2 text-white hover:bg-gray-700 transition-colors font-mono text-sm"
+              >
+                <XIcon className="w-4 h-4" />
+                View Submission Post
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+
+            {/* Repository */}
+            <a
+              href={bounty.repositoryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-gray-800 border border-gray-700 px-4 py-2 text-white hover:bg-gray-700 transition-colors font-mono text-sm"
+            >
+              <Github className="w-4 h-4" />
+              View Repository
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
         </div>
 
-        {/* Submission Form */}
+        {/* Submission Form - Only for active bounties */}
         {canSubmit && (
           <div className="mb-8">
             <h2 className="text-lg font-mono text-white mb-4 flex items-center gap-2">
@@ -362,7 +606,7 @@ export default function BountyDetailPage({
                         type="url"
                         value={prUrl}
                         onChange={(e) => setPrUrl(e.target.value)}
-                        placeholder="https://github.com/owner/repo/pull/123"
+                        placeholder="https://github.com/solahidris/krackeddev/pull/123"
                         className="w-full bg-gray-900 border border-gray-600 px-4 py-3 font-mono text-sm text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none"
                         required
                       />
@@ -391,8 +635,8 @@ export default function BountyDetailPage({
                     </button>
                   </div>
                   <p className="text-gray-500 text-xs mt-3 font-mono">
-                    Make sure your PR is linked to the issue and follows the
-                    contribution guidelines.
+                    Make sure your PR follows the contribution guidelines and
+                    tag @KrackedDevs on X.
                   </p>
                 </form>
               )}
@@ -400,25 +644,37 @@ export default function BountyDetailPage({
           </div>
         )}
 
-        {/* Not Accepting Submissions */}
-        {!canSubmit && (
+        {/* Completed Notice */}
+        {bounty.status === "completed" && (
+          <div className="mb-8 bg-green-500/10 border border-green-500/30 p-6 text-center">
+            <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-3" />
+            <div className="text-green-400 font-mono text-lg mb-2">
+              This bounty has been completed!
+            </div>
+            <p className="text-gray-400 text-sm">
+              Congratulations to the winner. Check out other active bounties on
+              the board.
+            </p>
+          </div>
+        )}
+
+        {/* Expired Notice */}
+        {bounty.status === "expired" && (
           <div className="mb-8 bg-gray-800/30 border border-gray-600 p-6 text-center">
             <div className="text-gray-500 font-mono">
-              {bounty.status === "completed"
-                ? "This bounty has been completed."
-                : "This bounty is no longer accepting submissions."}
+              This bounty has expired and is no longer accepting submissions.
             </div>
           </div>
         )}
 
         {/* Existing Submissions */}
-        {bounty.submissions.length > 0 && (
+        {submissions.length > 0 && (
           <div className="mb-8">
             <h2 className="text-lg font-mono text-white mb-4">
-              SUBMISSIONS ({bounty.submissions.length})
+              SUBMISSIONS ({submissions.length})
             </h2>
             <div className="space-y-4">
-              {bounty.submissions.map((submission) => (
+              {submissions.map((submission) => (
                 <SubmissionCard key={submission.id} submission={submission} />
               ))}
             </div>

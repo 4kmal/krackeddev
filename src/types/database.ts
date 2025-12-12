@@ -24,6 +24,22 @@ export interface PageView {
   created_at: string;
 }
 
+export interface BountySubmissionRow {
+  id: string;
+  bounty_slug: string;
+  bounty_title: string;
+  bounty_reward: number;
+  user_id: string;
+  pull_request_url: string;
+  notes: string | null;
+  status: string;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  review_notes: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
 // Database schema type for Supabase client
 export interface Database {
   public: {
@@ -43,6 +59,18 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Omit<PageView, "id" | "created_at">>;
+      };
+      bounty_submissions: {
+        Row: BountySubmissionRow;
+        Insert: Omit<
+          BountySubmissionRow,
+          "id" | "created_at" | "updated_at"
+        > & {
+          id?: string;
+          created_at?: string | null;
+          updated_at?: string | null;
+        };
+        Update: Partial<Omit<BountySubmissionRow, "id" | "created_at">>;
       };
     };
   };

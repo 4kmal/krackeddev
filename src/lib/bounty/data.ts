@@ -6,251 +6,166 @@ export const bounties: Bounty[] = [
     slug: "kracked-devs-landing-page",
     title: "Kracked Devs Landing Page",
     description:
-      "Create a creative, standout landing page design for 'Kracked Devs' – a vibrant developer community dedicated to leveling up skills, tackling bounties, and building epic projects together.",
-    longDescription: `## Description
+      "Create a creative, standout landing page design for Kracked Devs – a vibrant developer community.",
+    longDescription: `## Bounty Description
 
-Create a creative, standout landing page design for "Kracked Devs" – a vibrant developer community dedicated to leveling up skills, tackling bounties, and building epic projects together. 
+Create a creative, standout landing page design for "Kracked Devs" – a vibrant developer community dedicated to leveling up skills, tackling bounties, and building epic projects together.
 
-Submit mockups, code, links, or previews in the comments. The most creative and coolest concept wins!
+## What We're Looking For
 
-## Requirements
-- Creative and standout design
-- Reflect the vibrant developer community spirit
-- Showcase bounties and projects
-- Modern, engaging UI/UX
+- Creative and unique design concept
+- Modern, developer-focused aesthetic
+- Clear value proposition for the community
+- Responsive design for all devices
+- Engaging visuals and animations
 
-## Submission
-Submit your work via Twitter/X by replying to the bounty post with:
-- Mockups, code, links, or previews
-- Tag @KrackedDevs
+## How to Submit
 
-## Winner
-🏆 Winner: [@zafranudin_z](https://x.com/zafranudin_z)`,
+Submit mockups, code, links, or previews in the comments of the bounty post. The most creative and coolest concept wins!
+
+## Judging Criteria
+
+- Creativity and originality
+- Visual appeal and design quality
+- User experience and usability
+- Technical implementation (if code is provided)
+- Alignment with Kracked Devs brand and mission`,
     reward: 100,
-    difficulty: "intermediate",
+    difficulty: "beginner",
     status: "completed",
-    tags: ["design", "ui", "frontend", "landing-page"],
+    tags: ["design", "landing-page", "ui", "frontend", "creative"],
     requirements: [
-      "Creative landing page design",
-      "Reflect developer community vibe",
-      "Modern and engaging UI",
-      "Submit mockups/code/preview",
+      "Create a standout landing page design",
+      "Make it creative and visually appealing",
+      "Submit via X post reply with mockups/code/links",
     ],
     repositoryUrl: "https://github.com/solahidris/krackeddev",
-    issueUrl: "https://x.com/masterofnone/status/1992362597862240318",
+    bountyPostUrl: "https://x.com/masterofnone/status/1992362597862240318",
+    submissionPostUrl: "https://x.com/masterofnone/status/1992914421883248878",
     createdAt: "2025-11-20T10:00:00Z",
-    deadline: "2025-11-23T21:00:00Z",
-    completedAt: "2025-11-23T21:00:00Z",
-    submissions: [
-      {
-        id: "sub-1",
-        bountyId: "1",
-        pullRequestUrl: "https://x.com/masterofnone/status/1992914421883248878",
-        submittedBy: "zafranudin_z",
-        submittedAt: "2025-11-23T20:00:00Z",
-        status: "approved",
-        notes: "Winner - Creative landing page design",
-      },
-    ],
+    deadline: "2025-11-23T21:00:00+08:00",
+    completedAt: "2025-11-23T21:00:00+08:00",
+    winner: {
+      name: "Zafran Udin",
+      xHandle: "zafranudin_z",
+      xUrl: "https://x.com/zafranudin_z",
+    },
+    submissions: [],
   },
   {
     id: "2",
     slug: "gamified-tech-job-board",
     title: "Build a Gamified Tech Job Board for Kracked Devs",
     description:
-      "Build something epic – implement gamification features into a tech job board (e.g., points, badges, leaderboards for job applications, postings, or hires).",
-    longDescription: `## Description
+      "Implement gamification features into a tech job board – points, badges, leaderboards for job applications, postings, or hires.",
+    longDescription: `## Bounty Description
 
-The @KrackedDev community has voted for a "Gamified Tech Job Board" theme. 
+The @KrackedDev community has voted for a "Gamified Tech Job Board" theme. Build something epic – implement gamification features into a tech job board.
 
-Build something epic – implement gamification features into a tech job board (e.g., points, badges, leaderboards for job applications, postings, or hires). 
+## Features to Implement
 
-Contribute directly to the repo via Pull Request. Make it creative, functional, and standout!
-
-## Gamification Features
-- Points system for activities
-- Badges and achievements
-- Leaderboards for applications, postings, or hires
-- User profiles with progress tracking
-- Challenge system
+- **Points System** - Earn points for various activities
+- **Badges** - Achievement badges for milestones
+- **Leaderboards** - Rankings for job applications, postings, or hires
+- **Gamification Elements** - Make job hunting fun and engaging
 
 ## Technical Requirements
-- Contribute via Pull Request to the main repository
-- Next.js App Router + TypeScript + Tailwind CSS
-- Creative and functional implementation
-- Well-documented code
+
+- Contribute directly to the repo via Pull Request
+- Follow the existing codebase patterns (Next.js App Router, Tailwind, TypeScript)
+- Make it creative, functional, and standout!
+
+## How to Submit
+
+1. Fork the repository
+2. Implement your gamification features
+3. Submit a Pull Request to the main repo
+4. Share your PR link on X tagging @KrackedDevs
 
 ## Repository
-[https://github.com/solahidris/krackeddev](https://github.com/solahidris/krackeddev)
 
-## Winner
-🏆 Winner: [@iffathaikal1](https://x.com/iffathaikal1)`,
+https://github.com/solahidris/krackeddev`,
     reward: 150,
-    difficulty: "advanced",
+    difficulty: "intermediate",
     status: "completed",
-    tags: ["gamification", "job-board", "fullstack", "feature"],
+    tags: ["gamification", "job-board", "nextjs", "typescript", "fullstack"],
     requirements: [
       "Implement gamification features (points, badges, leaderboards)",
-      "Contribute via Pull Request",
-      "Creative and functional",
-      "Next.js + TypeScript + Tailwind",
+      "Submit via Pull Request to the repo",
+      "Make it creative and functional",
+      "Follow existing codebase patterns",
     ],
     repositoryUrl: "https://github.com/solahidris/krackeddev",
-    issueUrl: "https://x.com/solahidris_/status/1993586176419414145",
+    bountyPostUrl: "https://x.com/solahidris_/status/1993586176419414145",
+    submissionPostUrl: "https://x.com/iffathaikal1/status/1995088727497158927",
     createdAt: "2025-11-24T10:00:00Z",
-    deadline: "2025-11-30T23:59:59Z",
-    completedAt: "2025-11-30T23:59:59Z",
-    submissions: [
-      {
-        id: "sub-2",
-        bountyId: "2",
-        pullRequestUrl: "https://x.com/iffathaikal1/status/1995088727497158927",
-        submittedBy: "iffathaikal1",
-        submittedAt: "2025-11-30T20:00:00Z",
-        status: "approved",
-        notes: "Winner - Gamified job board implementation",
-      },
-    ],
+    deadline: "2025-11-30T23:59:59+08:00",
+    completedAt: "2025-11-30T23:59:59+08:00",
+    winner: {
+      name: "Iffat Haikal",
+      xHandle: "iffathaikal1",
+      xUrl: "https://x.com/iffathaikal1",
+      submissionUrl: "https://x.com/iffathaikal1/status/1995088727497158927",
+    },
+    submissions: [],
   },
   {
     id: "3",
     slug: "github-profile-widget",
     title: "Build a Kracked Devs Profile GitHub Widget",
     description:
-      "Build a customizable GitHub widget for Kracked Devs profiles with OAuth, contribution graph, in-profile editor with themes, and embeddable component.",
-    longDescription: `## Description
+      "Build a customizable GitHub widget for Kracked Devs profiles with OAuth, contribution graph, themes, and live preview.",
+    longDescription: `## Bounty Description
 
-Build a customizable GitHub widget for Kracked Devs profiles:
+New day, new bounty! Build a customizable GitHub widget for Kracked Devs profiles.
 
-## Core Features
-- **OAuth to GitHub** - Secure authentication
-- **Fetch & render the user's contribution graph**
-- **In-profile editor**: Themes (Colors, Size, Layout, Shapes), Live Preview
-- **Output**: Embeddable component on the Kracked Devs Profile
+## Features Required
+
+- **OAuth to GitHub** - Secure authentication flow
+- **Fetch & Render Contribution Graph** - Display the user's GitHub contribution data
+- **In-Profile Editor** with:
+  - Themes (Colors, Size, Layout, Shapes)
+  - Live Preview
+- **Output** - Embeddable component on the Kracked Devs Profile
 
 Ship something you'd use on your own profile! Make it creative, functional, and impressive.
 
 ## How to Submit
+
 Reply to the bounty post with:
-1. A 3–5 min screen recording (GitHub connect → graph → editing)
-2. Public repo link (with README/setup)
+1. **Screen Recording** (3–5 min) showing:
+   - GitHub connect flow
+   - Contribution graph rendering
+   - Editing features in action
+2. **Public Repo Link** with README and setup instructions
 3. Tag @KrackedDevs
-4. **Bonus**: Live demo URL + short bullets on stack/features
 
-## Technical Stack
-- Next.js App Router + TypeScript + Tailwind CSS
-- GitHub OAuth integration
-- Customizable themes and layouts
-- Real-time preview
+## Bonus Points
 
-## Winner
-🏆 Winner: [@4kmal4lif](https://x.com/4kmal4lif)`,
+- Live demo URL
+- Short bullets on stack/features used`,
     reward: 150,
     difficulty: "advanced",
     status: "completed",
-    tags: ["github", "oauth", "widget", "profile", "feature"],
+    tags: ["github", "oauth", "widget", "react", "api", "profile"],
     requirements: [
-      "GitHub OAuth integration",
-      "Fetch and render contribution graph",
-      "In-profile editor with themes",
-      "Live preview functionality",
-      "Embeddable component output",
-      "3-5 min demo video + repo + README",
+      "Implement GitHub OAuth authentication",
+      "Fetch and render GitHub contribution graph",
+      "Build in-profile editor with themes and live preview",
+      "Create embeddable component for profiles",
+      "Submit with screen recording and public repo",
     ],
     repositoryUrl: "https://github.com/solahidris/krackeddev",
-    issueUrl: "https://x.com/KrackedDevs/status/1996442362634174677",
+    bountyPostUrl: "https://x.com/KrackedDevs/status/1996442362634174677",
+    submissionPostUrl: "https://x.com/masterofnone/status/1997925687320342770",
     createdAt: "2025-12-01T10:00:00Z",
-    deadline: "2025-12-07T23:59:59Z",
-    completedAt: "2025-12-07T23:59:59Z",
-    submissions: [
-      {
-        id: "sub-3",
-        bountyId: "3",
-        pullRequestUrl: "https://x.com/masterofnone/status/1997925687320342770",
-        submittedBy: "4kmal4lif",
-        submittedAt: "2025-12-07T20:00:00Z",
-        status: "approved",
-        notes: "Winner - GitHub widget with customization features",
-      },
-    ],
-  },
-  {
-    id: "4",
-    slug: "viral-food-directory-map",
-    title: "Viral Food Directory (Map Edition)",
-    description:
-      "Create a map-first web app to discover viral food spots, powered by reviews from Google plus one other source (e.g. Yelp, TripAdvisor, Foursquare).",
-    longDescription: `## Bounty Brief
-
-Create a map-first web app to discover viral food spots, powered by reviews from Google plus one other source (e.g. Yelp, TripAdvisor, Foursquare).
-
-## Must-Have Features
-
-### 1. Map Interface
-- Map with pins for food locations
-- Synced list view alongside the map
-- Interactive markers
-
-### 2. Place Page
-Display comprehensive information for each location:
-- Name and address
-- Tags/categories
-- Must-try item
-- Opening hours
-- Price range
-- Photos
-
-### 3. Search & Filters
-- **Near me** - Location-based search
-- **Open now** - Filter by current operating hours
-- **Category** - Filter by food type/cuisine
-- **Price range** - Budget filtering
-- Show distance from user
-
-### 4. Trending & Ratings
-- Simple "Trending" sort algorithm
-- Aggregate rating using Google + one extra review source
-- Display combined scores
-
-### 5. Deliverables
-- Live demo (deployed)
-- Public repository
-- Short README with setup instructions
-
-## Technical Stack
-- Next.js App Router + TypeScript + Tailwind CSS
-- Google Maps/Places API
-- One additional review source API (Yelp, TripAdvisor, or Foursquare)
-- Cloudflare Pages deployment
-
-## How to Submit
-Reply to the bounty post with:
-1. Live demo URL
-2. Public GitHub repository link
-3. Short description of features and tech stack
-4. Tag @KrackedDevs
-
-## Social Caption Idea
-"New Kracked Devs bounty: Build a Viral Food Directory in 5 days. Map UI, real reviews from Google + one more source, and your own 'trending' score. Ship a live demo + repo and drop your link to enter."
-
-## Timeline
-5-day build challenge`,
-    reward: 200,
-    difficulty: "advanced",
-    status: "active",
-    tags: ["maps", "api-integration", "fullstack", "food-tech", "feature"],
-    requirements: [
-      "Map with pins + synced list view",
-      "Place page with comprehensive info",
-      "Search and filters (near me, open now, category, price)",
-      "Distance calculation and Trending sort",
-      "Aggregate ratings from Google + one other source",
-      "Live demo + public repo + README",
-    ],
-    repositoryUrl: "https://github.com/solahidris/krackeddev",
-    issueUrl: "https://x.com/KrackedDevs/status/PENDING",
-    createdAt: "2025-12-12T10:00:00Z",
-    deadline: "2025-12-17T23:59:59Z",
+    deadline: "2025-12-07T23:59:00+08:00",
+    completedAt: "2025-12-07T23:59:00+08:00",
+    winner: {
+      name: "Akmal Alif",
+      xHandle: "4kmal4lif",
+      xUrl: "https://x.com/4kmal4lif",
+    },
     submissions: [],
   },
 ];
@@ -269,4 +184,8 @@ export function getAllBounties(): Bounty[] {
 
 export function getBountiesByStatus(status: Bounty["status"]): Bounty[] {
   return bounties.filter((b) => b.status === status);
+}
+
+export function getCompletedBounties(): Bounty[] {
+  return bounties.filter((b) => b.status === "completed");
 }
